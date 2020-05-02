@@ -1,0 +1,17 @@
+{
+    "name": "roman/orm",
+    "description": "Hand-made little orm",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Roman Bondarenko",
+            "email": "rom_bon@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+
+        }
+    }
+}
