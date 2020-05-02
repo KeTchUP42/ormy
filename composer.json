@@ -1,17 +1,17 @@
 {
-    "name": "roman/orm",
-    "description": "Hand-made little orm",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Roman Bondarenko",
-            "email": "rom_bon@mail.ru"
-        }
-    ],
-    "require": {},
-    "autoload": {
-        "psr-4": {
-
-        }
+  "name": "roman/orm",
+  "description": "Hand-made little orm",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Roman Bondarenko",
+      "email": "rom_bon@mail.ru"
     }
+  ],
+  "require": {
+    "php": "^7.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.1"
+  }
 }

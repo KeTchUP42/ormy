@@ -1,0 +1,22 @@
+<?php
+declare(strict_types = 1);
+
+namespace ORMY\Migrations;
+
+use ORMY\Migrator\Migrations\AbstractMigration;
+
+/**
+ * <id>migration
+ */
+class <id>Migration extends AbstractMigration
+{
+    public function up(): void
+    {
+       $this->connector->query(<query>);
+    }
+
+    public function down(): void
+    {
+       $this->connector->query(<query>);
+    }
+}

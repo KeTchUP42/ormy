@@ -1,4 +1,4 @@
-#ORMY
+# ORMY
 
-##Info
-My little realization of simple orm 
+## Info
+My little realization of simple orm for github.
