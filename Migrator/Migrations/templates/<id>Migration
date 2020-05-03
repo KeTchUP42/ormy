@@ -12,11 +12,11 @@ class <id>Migration extends AbstractMigration
 {
     public function up(): void
     {
-       $this->connector->query(<query>);
+       $this->connector->exec(<query>);
     }
 
     public function down(): void
     {
-       $this->connector->query(<query>);
+       $this->connector->exec(<query>);
     }
 }

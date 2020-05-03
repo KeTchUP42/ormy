@@ -21,37 +21,31 @@ interface IConnector
      *
      * @param string $sqlquery
      *
-     * @return array
+     * @return bool|false|\PDOStatement
      */
-    public function queryAll(string $sqlquery): array;
+    public function query(string $sqlquery);
 
     /**
      *
      * @param string $sqlquery
      *
-     * @param int    $style
-     *
-     * @return array
+     * @return bool|false|int
      */
-    public function query(string $sqlquery, int $style = PDO::FETCH_BOTH): array;
+    public function exec(string $sqlquery);
 
     /**
-     * Получить Address
+     * Получить Properties
      *
-     * @return string
+     * @param string $name
+     *
+     * @return bool|mixed
      */
-    public function getAddress(): string;
+    public function getProperty(string $name);
 
     /**
-     * Получить Host
+     * Получить Pdo
      *
-     * @return string
+     * @return PDO
      */
-    public function getHost(): string;
-
-    /**
-     *
-     * @return string
-     */
-    public function getDBName(): string;
+    public function getPdo(): PDO;
 }

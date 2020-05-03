@@ -9,7 +9,7 @@ use PDO;
 /**
  * AbstractConnector
  */
-abstract class AbstractConnector implements IConnector, IConnectorSafe
+abstract class AbstractConnector implements IConnector
 {
     /**
      * @var PDO
@@ -17,94 +17,77 @@ abstract class AbstractConnector implements IConnector, IConnectorSafe
     protected PDO   $pdo;
 
     /**
-     * @var string
+     * @var array
      */
-    protected string $dbName;
-
-    /**
-     * @var string
-     */
-    protected string $address;
-
-    /**
-     * @var string
-     */
-    protected string $host;
+    protected array $properties;
 
     /**
      * Конструктор.
      *
-     * @param string $dbType
-     * @param string $address
-     * @param string $port
-     * @param string $dbName
+     * @param string $dsn
      * @param string $host
      * @param string $pass
      */
-    public function __construct(
-        string $dbType,
-        string $address,
-        string $port,
-        string $dbName,
-        string $host,
-        string $pass
-    ) {
+    public function __construct(string $dsn, string $host, string $pass)
+    {
         try {
-            $this->pdo = new PDO("$dbType:host=$address;port=$port;dbname=$dbName", $host, $pass);
+            $this->pdo = new PDO($dsn, $host, $pass);
         } catch (\PDOException $exception) {
-            die('I cant connect to DB, check input args:' . __FILE__ . "\n" . $exception->errorInfo);
+            die('I cant connect to DB, check input args:' . __FILE__ . ' ' . __LINE__ . "\n" . $exception->errorInfo);
         }
-        $this->dbName  = $dbName;
-        $this->address = $address . ':' . $port;
-        $this->host    = $host;
-    }
-
-    /**
-     * Получить Address
-     *
-     * @return string
-     */
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    /**
-     * Получить Host
-     *
-     * @return string
-     */
-    public function getHost(): string
-    {
-        return $this->host;
+        $this->parseDsn($dsn);
     }
 
     /**
      *
-     * @return string
+     * @param string $dsn
      */
-    public function getDBName(): string
+    protected function parseDsn(string $dsn): void
     {
-        return $this->dbName;
+        $body = explode(':', mb_strtolower($dsn));
+        foreach (explode(';', $body[1]) as $value) {
+            $propertyKeyValue                       = explode('=', $value);
+            $this->properties[$propertyKeyValue[0]] = $propertyKeyValue[1];
+        }
+    }
+
+    /**
+     * Получить Properties
+     *
+     * @param string $name
+     *
+     * @return bool|mixed
+     */
+    public function getProperty(string $name)
+    {
+        return $this->properties[$name] ?? false;
+    }
+
+    /**
+     * Получить Pdo
+     *
+     * @return PDO
+     */
+    public function getPdo(): PDO
+    {
+        return $this->pdo;
     }
 
     /**
      *
      * @param string $sqlquery
      *
-     * @return array
+     * @return bool|false|int
      */
-    abstract public function queryAll(string $sqlquery): array;
+    abstract public function exec(string $sqlquery);
 
     /**
      *
      * @param string $sqlquery
      *
-     * @param int    $style
-     *
-     * @return array
+     * @return bool|false|\PDOStatement
      */
-    abstract public function query(string $sqlquery, int $style = PDO::FETCH_BOTH): array;
+    abstract public function query(string $sqlquery);
 
     /**
      *

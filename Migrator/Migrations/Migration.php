@@ -15,7 +15,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        $this->connector->query('');
+        $this->connector->exec('');
     }
 
     /**
@@ -23,6 +23,6 @@ class Migration extends AbstractMigration
      */
     public function down(): void
     {
-        $this->connector->query('');
+        $this->connector->exec('');
     }
 }

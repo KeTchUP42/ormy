@@ -18,28 +18,28 @@ abstract class AbstractMigrator implements IMigrator
     /**
      * @var string
      */
-    protected string $migrationDir;
+    protected string $migrDir;
 
     /**
      * @var string
      */
-    protected string $migVersionTableName;
+    protected string $migrationVersionTableName;
 
     /**
      * Конструктор.
      *
      * @param IConnector $connector
-     * @param string     $migrationDir
+     * @param string     $migrDir
      * @param string     $migrationVersionTableName
      */
     public function __construct(
         IConnector $connector,
-        string $migrationDir,
+        string $migrDir,
         string $migrationVersionTableName = 'migration_versions'
     ) {
-        $this->connector           = $connector;
-        $this->migrationDir        = $migrationDir;
-        $this->migVersionTableName = $this->connector->getDBName() . '.' . $migrationVersionTableName;
+        $this->connector                 = $connector;
+        $this->migrDir                   = $migrDir;
+        $this->migrationVersionTableName = $this->connector->getProperty('dbname') . '.' . $migrationVersionTableName;
     }
 
     /**

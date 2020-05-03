@@ -6,7 +6,6 @@ namespace ORMY\Connector;
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
 use ORMY\Connector\QueryBuilder\QueryBuilder;
 use ORMY\Connector\source\AbstractConnector;
-use PDO;
 
 /**
  * ORM Connector
@@ -17,23 +16,30 @@ class Connector extends AbstractConnector
      *
      * @param string $sqlquery
      *
-     * @return array
+     * @return bool|false|int
      */
-    public function queryAll(string $sqlquery): array
+    public function exec(string $sqlquery)
     {
-        return $this->pdo->query($sqlquery)->fetchAll();
+        try {
+            return $this->pdo->exec($sqlquery);
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 
     /**
      *
      * @param string $sqlquery
-     * @param int    $style
      *
-     * @return array
+     * @return bool|false|\PDOStatement
      */
-    public function query(string $sqlquery, int $style = PDO::FETCH_BOTH): array
+    public function query(string $sqlquery)
     {
-        return $this->pdo->query($sqlquery)->fetch($style);
+        try {
+            return $this->pdo->query($sqlquery);
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 
     /**

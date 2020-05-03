@@ -27,27 +27,21 @@ class Ormy
     /**
      * Конструктор.
      *
-     * @param string $dbType
-     * @param string $address
-     * @param string $port
-     * @param string $dbName
-     * @param string $host
+     * @param string $dsn
+     * @param string $user
      * @param string $pass
-     * @param string $migrationDir
+     * @param string $migrDir
      */
     public function __construct(
-        string $dbType,
-        string $address,
-        string $port,
-        string $dbName,
-        string $host,
+        string $dsn,
+        string $user,
         string $pass,
-        string $migrationDir
+        string $migrDir
     ) {
 
-        $connector      = new Connector($dbType, $address, $port, $dbName, $host, $pass);
+        $connector      = new Connector($dsn, $user, $pass);
         $this->meneger  = new Meneger($connector);
-        $this->migrator = new Migrator($connector, $migrationDir);
+        $this->migrator = new Migrator($connector, $migrDir);
     }
 
     /**

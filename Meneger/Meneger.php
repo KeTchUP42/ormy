@@ -3,13 +3,67 @@ declare(strict_types = 1);
 
 namespace ORMY\Meneger;
 
-use ORMY\Meneger\soure\AbstactMeneger;
+use Exception;
+use ORMY\Connector\source\IConnector;
+use ORMY\Meneger\soure\IMeneger;
 
 /**
  * ORM Meneger
  */
-class Meneger extends AbstactMeneger
+class Meneger implements IMeneger
 {
-    //todo MENEGER WORKS WITH CONNECTOR
-    //todo rename getConnector => !!NOOOOOOO!!!
+    /**
+     * @var IConnector
+     */
+    protected IConnector $connector;
+
+    /**
+     * @var mixed
+     */
+    protected $repository;
+
+    /**
+     * Конструктор.
+     *
+     * @param IConnector $connector
+     */
+    public function __construct(IConnector $connector)
+    {
+        $this->connector = $connector;
+    }
+
+    /**
+     * @return IConnector
+     */
+    public function getConnector(): IConnector
+    {
+        return $this->connector;
+    }
+
+    /**
+     *
+     * @param string $classPath
+     *
+     * @return bool|mixed
+     */
+    public function getContainer(string $classPath)
+    {
+        try {
+            $this->repository = new $classPath;
+        } catch (Exception $exception) {
+            return false;
+        }
+
+        return $this->repository;
+    }
+
+    /**
+     * @return bool
+     */
+    public function flush(): bool
+    {
+        //$this->repository
+        //todo!!!
+        return true;
+    }
 }
