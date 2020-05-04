@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ORMY\Migrator\source;
 
-use ORMY\Connector\source\IConnector;
+use ORMY\Connector\IConnector;
 
 /**
  * AbstractMigrator - source class fir migrator
@@ -18,7 +18,7 @@ abstract class AbstractMigrator implements IMigrator
     /**
      * @var string
      */
-    protected string $migrDir;
+    protected string $migrationsDir;
 
     /**
      * @var string
@@ -38,7 +38,7 @@ abstract class AbstractMigrator implements IMigrator
         string $migrationVersionTableName = 'migration_versions'
     ) {
         $this->connector                 = $connector;
-        $this->migrDir                   = $migrDir;
+        $this->migrationsDir             = $migrDir;
         $this->migrationVersionTableName = $this->connector->getProperty('dbname') . '.' . $migrationVersionTableName;
     }
 

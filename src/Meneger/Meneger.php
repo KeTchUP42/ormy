@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace ORMY\Meneger;
 
 use Exception;
-use ORMY\Connector\source\IConnector;
-use ORMY\Meneger\soure\IMeneger;
+use ORMY\Connector\IConnector;
 
 /**
  * ORM Meneger

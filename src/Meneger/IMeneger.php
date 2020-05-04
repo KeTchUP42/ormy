@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace ORMY\Meneger\soure;
+namespace ORMY\Meneger;
 
-use ORMY\Connector\source\IConnector;
+use ORMY\Connector\IConnector;
 
 /**
  * IMeneger
@@ -25,7 +25,7 @@ interface IMeneger
     public function getContainer(string $classPath);
 
     /**
-     * Method sends new info from container
+     * Method sends new info to db from container
      *
      * @return bool
      */

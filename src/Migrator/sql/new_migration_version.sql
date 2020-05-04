@@ -1,0 +1,1 @@
+INSERT INTO <tablename> (`version`) VALUES ('<version>');

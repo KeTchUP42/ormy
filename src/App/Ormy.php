@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace ORMY\App;
 
 use ORMY\Connector\Connector;
+use ORMY\Meneger\IMeneger;
 use ORMY\Meneger\Meneger;
-use ORMY\Meneger\soure\IMeneger;
 use ORMY\Migrator\Migrator;
 use ORMY\Migrator\source\IMigrator;
 
@@ -38,7 +38,6 @@ class Ormy
         string $pass,
         string $migrDir
     ) {
-
         $connector      = new Connector($dsn, $user, $pass);
         $this->meneger  = new Meneger($connector);
         $this->migrator = new Migrator($connector, $migrDir);

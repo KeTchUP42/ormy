@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ORMY\Traits;
 
-use ORMY\Connector\source\IConnector;
+use ORMY\Connector\IConnector;
 
 /**
  * ConnectorTrait

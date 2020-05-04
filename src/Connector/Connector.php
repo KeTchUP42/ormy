@@ -1,15 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-namespace ORMY\Connector\source;
+namespace ORMY\Connector;
 
+use ORMY\Connector\Exceptions\ConnectionException;
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
+use ORMY\Connector\QueryBuilder\MySQLQueryBuilder;
 use PDO;
 
 /**
- * AbstractConnector
+ * ORM Connector
  */
-abstract class AbstractConnector implements IConnector
+class Connector implements IConnector
 {
     /**
      * @var PDO
@@ -33,7 +35,9 @@ abstract class AbstractConnector implements IConnector
         try {
             $this->pdo = new PDO($dsn, $host, $pass);
         } catch (\PDOException $exception) {
-            die('I cant connect to DB, check input args:' . __FILE__ . ' ' . __LINE__ . "\n" . $exception->errorInfo);
+            throw new ConnectionException(
+                'I cant connect to DB, check input args:' . __FILE__ . ' ' . __LINE__ . "\n" . $exception->errorInfo
+            );
         }
         $this->parseDsn($dsn);
     }
@@ -44,9 +48,9 @@ abstract class AbstractConnector implements IConnector
      */
     protected function parseDsn(string $dsn): void
     {
-        $body = explode(':', mb_strtolower($dsn));
+        $body = explode(':', mb_strtolower($dsn), 2);
         foreach (explode(';', $body[1]) as $value) {
-            $propertyKeyValue                       = explode('=', $value);
+            $propertyKeyValue                       = explode('=', $value, 2);
             $this->properties[$propertyKeyValue[0]] = $propertyKeyValue[1];
         }
     }
@@ -79,7 +83,14 @@ abstract class AbstractConnector implements IConnector
      *
      * @return bool|false|int
      */
-    abstract public function exec(string $sqlquery);
+    public function exec(string $sqlquery)
+    {
+        try {
+            return $this->pdo->exec($sqlquery);
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 
     /**
      *
@@ -87,11 +98,21 @@ abstract class AbstractConnector implements IConnector
      *
      * @return bool|false|\PDOStatement
      */
-    abstract public function query(string $sqlquery);
+    public function query(string $sqlquery)
+    {
+        try {
+            return $this->pdo->query($sqlquery);
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 
     /**
      *
      * @return IQueryBuilder
      */
-    abstract public function getQueryBuilder(): IQueryBuilder;
+    public function getQueryBuilder(): IQueryBuilder
+    {
+        return new MySQLQueryBuilder($this);
+    }
 }

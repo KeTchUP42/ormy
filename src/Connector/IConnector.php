@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace ORMY\Connector\source;
+namespace ORMY\Connector;
 
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
 use PDO;
