@@ -31,7 +31,9 @@ abstract class AbstaractQueryBuilder
     }
 
     /**
-     * Method calls connector query
+     * Method calls connector's query
+     *
+     * @return \PDOStatement
      */
     public function query(): \PDOStatement
     {
@@ -58,15 +60,17 @@ abstract class AbstaractQueryBuilder
     }
 
     /**
-     * Method calls connector exec
+     * Method calls connector's exec
+     *
+     * @return bool
      */
-    public function exec(): int
+    public function exec()
     {
         return $this->connector->exec($this->getSQL());
     }
 
     /**
-     * method resets query
+     * Method resets query
      */
     protected function reset(): void
     {

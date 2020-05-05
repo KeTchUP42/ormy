@@ -3,60 +3,14 @@ declare(strict_types = 1);
 
 namespace ORMY\Meneger;
 
-use Exception;
-use ORMY\Connector\IConnector;
-
 /**
  * ORM Meneger
  */
-class Meneger implements IMeneger
+class Meneger extends AbstractMeneger
 {
     /**
-     * @var IConnector
-     */
-    protected IConnector $connector;
-
-    /**
-     * @var mixed
-     */
-    protected $repository;
-
-    /**
-     * Конструктор.
+     * Method sends new info to db from container
      *
-     * @param IConnector $connector
-     */
-    public function __construct(IConnector $connector)
-    {
-        $this->connector = $connector;
-    }
-
-    /**
-     * @return IConnector
-     */
-    public function getConnector(): IConnector
-    {
-        return $this->connector;
-    }
-
-    /**
-     *
-     * @param string $classPath
-     *
-     * @return bool|mixed
-     */
-    public function getContainer(string $classPath)
-    {
-        try {
-            $this->repository = new $classPath;
-        } catch (Exception $exception) {
-            return false;
-        }
-
-        return $this->repository;
-    }
-
-    /**
      * @return bool
      */
     public function flush(): bool

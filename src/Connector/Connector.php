@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace ORMY\Connector;
 
-use ORMY\Connector\Exceptions\ConnectionException;
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
 use ORMY\Connector\QueryBuilder\MySQLQueryBuilder;
+use ORMY\Exceptions\ConnectionException;
 use PDO;
 
 /**
@@ -36,7 +36,7 @@ class Connector implements IConnector
             $this->pdo = new PDO($dsn, $host, $pass);
         } catch (\PDOException $exception) {
             throw new ConnectionException(
-                'I cant connect to DB, check input args:' . __FILE__ . ' ' . __LINE__ . "\n" . $exception->errorInfo
+                'I can\'t connect to DB, check input args: ' . __FILE__ . ' ' . __LINE__ . "\n" . $exception->errorInfo
             );
         }
         $this->parseDsn($dsn);
@@ -48,7 +48,9 @@ class Connector implements IConnector
      */
     protected function parseDsn(string $dsn): void
     {
-        $body = explode(':', mb_strtolower($dsn), 2);
+        $this->properties['dsn']    = $dsn;
+        $body                       = explode(':', mb_strtolower($dsn), 2);
+        $this->properties[$body[0]] = $body[1];
         foreach (explode(';', $body[1]) as $value) {
             $propertyKeyValue                       = explode('=', $value, 2);
             $this->properties[$propertyKeyValue[0]] = $propertyKeyValue[1];
@@ -68,6 +70,16 @@ class Connector implements IConnector
     }
 
     /**
+     * Получить Properties
+     *
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        return $this->properties;
+    }
+
+    /**
      * Получить Pdo
      *
      * @return PDO
@@ -81,12 +93,27 @@ class Connector implements IConnector
      *
      * @param string $sqlquery
      *
-     * @return bool|false|int
+     * @return bool|\PDOStatement
+     */
+    public function prepare(string $sqlquery)
+    {
+        try {
+            return $this->pdo->prepare($sqlquery);
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param string $sqlquery
+     *
+     * @return bool
      */
     public function exec(string $sqlquery)
     {
         try {
-            return $this->pdo->exec($sqlquery);
+            return $this->pdo->prepare($sqlquery)->execute();
         } catch (\Exception $exception) {
             return false;
         }

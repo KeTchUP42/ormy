@@ -26,6 +26,39 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
 
     /**
      *
+     * @param string $table
+     *
+     * @param array  $fields
+     * @param array  $values
+     *
+     * @return $this|IQueryBuilder
+     */
+    public function insert(string $table, array $fields, array $values): IQueryBuilder
+    {
+        $this->reset();
+        $this->query->base = "INSERT INTO " .$table. '('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
+        $this->query->type = 'insert';
+
+        return $this;
+    }
+
+    /**
+     *
+     * @param string $table
+     *
+     * @return $this|IQueryBuilder
+     */
+    public function delete(string $table): IQueryBuilder
+    {
+        $this->reset();
+        $this->query->base = "DELETE FROM " . $table;
+        $this->query->type = 'delete';
+
+        return $this;
+    }
+
+    /**
+     *
      * @param string $field
      * @param string $value
      * @param string $operator
@@ -43,15 +76,14 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
 
     /**
      *
-     * @param int $start
-     * @param int $offset
+     * @param int $limit
      *
      * @return $this|IQueryBuilder
      */
-    public function limit(int $start, int $offset): IQueryBuilder
+    public function limit(int $limit): IQueryBuilder
     {
-        if (in_array($this->query->type, ['select'])) {
-            $this->query->limit = " LIMIT " . $start . ", " . $offset;
+        if (in_array($this->query->type, ['select', 'delete'])) {
+            $this->query->limit = " LIMIT " . $limit;
         }
 
         return $this;

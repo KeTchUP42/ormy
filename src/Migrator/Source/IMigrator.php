@@ -1,7 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace ORMY\Migrator\source;
+namespace ORMY\Migrator\Source;
+
+use ORMY\Exceptions\FileNotFoundException;
 
 /**
  *
@@ -16,9 +18,10 @@ interface IMigrator
      * @param string $sqlQueryUp
      * @param string $sqlQueryDown
      *
-     * @return bool
+     * @return void
+     * @throws FileNotFoundException
      */
-    public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): bool;
+    public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void;
 
     /**
      * method migrateUp
@@ -28,7 +31,7 @@ interface IMigrator
     public function migrateUp(): bool;
 
     /**
-     * method  migrateDown
+     * method migrateDown
      *
      * @return bool
      */

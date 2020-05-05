@@ -34,6 +34,21 @@ interface IConnector
     public function exec(string $sqlquery);
 
     /**
+     *
+     * @param string $sqlquery
+     *
+     * @return bool|\PDOStatement
+     */
+    public function prepare(string $sqlquery);
+
+    /**
+     * Получить Properties
+     *
+     * @return array
+     */
+    public function getProperties(): array;
+
+    /**
      * Получить Properties
      *
      * @param string $name

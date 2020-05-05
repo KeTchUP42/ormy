@@ -9,12 +9,14 @@ namespace ORMY\Connector\QueryBuilder;
 interface IQueryBuilder
 {
     /**
+     * Method calls connector's exec
      *
-     * @return int
+     * @return bool
      */
-    public function exec(): int;
+    public function exec();
 
     /**
+     * Method calls connector's query
      *
      * @return \PDOStatement
      */
@@ -29,11 +31,30 @@ interface IQueryBuilder
     /**
      *
      * @param string $table
+     *
+     * @return $this|IQueryBuilder
+     */
+    public function delete(string $table): IQueryBuilder;
+
+    /**
+     *
+     * @param string $table
      * @param array  $fields
      *
      * @return IQueryBuilder
      */
     public function select(string $table, array $fields): IQueryBuilder;
+
+    /**
+     *
+     * @param string $table
+     *
+     * @param array  $fields
+     * @param array  $values
+     *
+     * @return $this|IQueryBuilder
+     */
+    public function insert(string $table, array $fields, array $values): IQueryBuilder;
 
     /**
      *
@@ -47,12 +68,11 @@ interface IQueryBuilder
 
     /**
      *
-     * @param int $start
-     * @param int $offset
+     * @param int $limit
      *
-     * @return IQueryBuilder
+     * @return $this|IQueryBuilder
      */
-    public function limit(int $start, int $offset): IQueryBuilder;
+    public function limit(int $limit): IQueryBuilder;
     //TODO add query build methods!
 
 }

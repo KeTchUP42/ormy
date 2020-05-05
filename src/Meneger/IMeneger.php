@@ -22,7 +22,7 @@ interface IMeneger
      *
      * @return mixed
      */
-    public function getContainer(string $classPath);
+    public function installRepository(string $classPath);
 
     /**
      * Method sends new info to db from container
