@@ -11,4 +11,14 @@ use ORMY\Traits\ConnectorTrait;
 abstract class AbstractMigration
 {
     use ConnectorTrait;
+
+    /**
+     * Method applys all db changes
+     */
+    abstract public function up(): void;
+
+    /**
+     * Method roll back all db changes
+     */
+    abstract public function down(): void;
 }

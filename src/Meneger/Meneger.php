@@ -9,7 +9,7 @@ namespace ORMY\Meneger;
 class Meneger extends AbstractMeneger
 {
     /**
-     * Method sends new info to db from container
+     * Method sends new info to db from repository
      *
      * @return bool
      */

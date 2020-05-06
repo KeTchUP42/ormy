@@ -11,9 +11,8 @@ use ORMY\Exceptions\FileNotFoundException;
 interface IMigrator
 {
     /**
-     * method maker migration
-     * writes to db new ver
-     * add new migration class
+     * Method makes migration ->
+     * adds new migration class
      *
      * @param string $sqlQueryUp
      * @param string $sqlQueryDown
@@ -24,14 +23,16 @@ interface IMigrator
     public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void;
 
     /**
-     * method migrateUp
+     * Method migrates up
+     * writes to db new executed version
      *
      * @return bool
      */
     public function migrateUp(): bool;
 
     /**
-     * method migrateDown
+     * Method migrates down
+     * deletes all executed versions from db
      *
      * @return bool
      */

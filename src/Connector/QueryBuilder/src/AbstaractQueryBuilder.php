@@ -31,13 +31,13 @@ abstract class AbstaractQueryBuilder
     }
 
     /**
-     * Method calls connector's query
+     * Method calls connector's exec
      *
-     * @return \PDOStatement
+     * @return bool
      */
-    public function query(): \PDOStatement
+    public function exec()
     {
-        return $this->connector->query($this->getSQL());
+        return $this->connector->exec($this->getSQL());
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class AbstaractQueryBuilder
         $query = $this->query;
         $sql   = $query->base;
         if (!empty($query->where)) {
-            $sql .= " WHERE " . implode(' AND ', $query->where);
+            $sql .= " WHERE ".implode(' AND ', $query->where);
         }
         if (isset($query->limit)) {
             $sql .= $query->limit;
@@ -60,13 +60,13 @@ abstract class AbstaractQueryBuilder
     }
 
     /**
-     * Method calls connector's exec
+     * Method calls connector's query
      *
-     * @return bool
+     * @return \PDOStatement
      */
-    public function exec()
+    public function query(): \PDOStatement
     {
-        return $this->connector->exec($this->getSQL());
+        return $this->connector->query($this->getSQL());
     }
 
     /**

@@ -52,9 +52,38 @@ abstract class AbstractMigrator implements IMigrator, IMigratorFull
     }
 
     /**
-     * method maker migration
-     * writes to db new ver
-     * add new migration class
+     * Получить Migration dir
+     *
+     * @return string
+     */
+    public function getMigrationDir(): string
+    {
+        return $this->migrDir;
+    }
+
+    /**
+     * Получить Migration namespace
+     *
+     * @return string
+     */
+    public function getMigrationNameSpace(): string
+    {
+        return $this->migrNameSpace;
+    }
+
+    /**
+     * Получить migration version table name
+     *
+     * @return string
+     */
+    public function getMigrationVersionTableName(): string
+    {
+        return $this->migrVersionTableName;
+    }
+
+    /**
+     * Method makes migration ->
+     * adds new migration class
      *
      * @param string $sqlQueryUp
      * @param string $sqlQueryDown
@@ -65,46 +94,18 @@ abstract class AbstractMigrator implements IMigrator, IMigratorFull
     abstract public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void;
 
     /**
-     * method migrates up
+     * Method migrates up
+     * writes to db new executed version
      *
      * @return bool
      */
     abstract public function migrateUp(): bool;
 
     /**
-     * method migrates down
+     * Method migrates down
+     * deletes all executed versions from db
      *
      * @return bool
      */
     abstract public function migrateDown(): bool;
-
-    /**
-     * Получить MigrDir
-     *
-     * @return string
-     */
-    public function getMigrDir(): string
-    {
-        return $this->migrDir;
-    }
-
-    /**
-     * Получить MigrNameSpace
-     *
-     * @return string
-     */
-    public function getMigrNameSpace(): string
-    {
-        return $this->migrNameSpace;
-    }
-
-    /**
-     * Получить MigrVersionTableName
-     *
-     * @return string
-     */
-    public function getMigrVersionTableName(): string
-    {
-        return $this->migrVersionTableName;
-    }
 }

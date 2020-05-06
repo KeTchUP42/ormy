@@ -9,6 +9,12 @@ namespace ORMY\Connector\QueryBuilder;
 interface IQueryBuilder
 {
     /**
+     *
+     * @return string
+     */
+    public function getSQL(): string;
+
+    /**
      * Method calls connector's exec
      *
      * @return bool
@@ -21,12 +27,6 @@ interface IQueryBuilder
      * @return \PDOStatement
      */
     public function query(): \PDOStatement;
-
-    /**
-     *
-     * @return string
-     */
-    public function getSQL(): string;
 
     /**
      *

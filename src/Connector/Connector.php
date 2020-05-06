@@ -16,12 +16,12 @@ class Connector implements IConnector
     /**
      * @var PDO
      */
-    protected PDO   $pdo;
+    private PDO   $pdo;
 
     /**
      * @var array
      */
-    protected array $properties;
+    private array $properties;
 
     /**
      * Конструктор.
@@ -35,22 +35,22 @@ class Connector implements IConnector
         try {
             $this->pdo = new PDO($dsn, $host, $pass);
         } catch (\PDOException $exception) {
-            throw new ConnectionException(
-                'I can\'t connect to DB, check input args: ' . __FILE__ . ' ' . __LINE__ . "\n" . $exception->errorInfo
+            throw new ConnectionException('I can\'t connect to DB, check input args: '.__FILE__.' '.__LINE__."\n".$exception->errorInfo
             );
         }
         $this->parseDsn($dsn);
     }
 
     /**
+     * Method parses input dsn
      *
      * @param string $dsn
      */
-    protected function parseDsn(string $dsn): void
+    private function parseDsn(string $dsn): void
     {
-        $this->properties['dsn']    = $dsn;
-        $body                       = explode(':', mb_strtolower($dsn), 2);
-        $this->properties[$body[0]] = $body[1];
+        $this->properties['dsn']  = $dsn;
+        $body                     = explode(':', mb_strtolower($dsn), 2);
+        $this->properties['type'] = $body[0];
         foreach (explode(';', $body[1]) as $value) {
             $propertyKeyValue                       = explode('=', $value, 2);
             $this->properties[$propertyKeyValue[0]] = $propertyKeyValue[1];

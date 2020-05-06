@@ -9,23 +9,23 @@ namespace ORMY\Migrator\Source;
 interface IMigratorFull extends IMigrator
 {
     /**
-     * Получить MigrDir
+     * Получить Migration dir
      *
      * @return string
      */
-    public function getMigrDir(): string;
+    public function getMigrationDir(): string;
 
     /**
-     * Получить MigrNameSpace
+     * Получить Migration namespace
      *
      * @return string
      */
-    public function getMigrNameSpace(): string;
+    public function getMigrationNameSpace(): string;
 
     /**
-     * Получить MigrVersionTableName
+     * Получить migration version table name
      *
      * @return string
      */
-    public function getMigrVersionTableName(): string;
+    public function getMigrationVersionTableName(): string;
 }

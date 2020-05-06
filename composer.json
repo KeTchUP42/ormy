@@ -1,6 +1,6 @@
 {
   "name": "roman/ormy",
-  "description": "Hand-made little orm",
+  "description": "Handmade little orm",
   "type": "library",
   "authors": [
     {

@@ -18,7 +18,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     public function select(string $table, array $fields): IQueryBuilder
     {
         $this->reset();
-        $this->query->base = "SELECT " . implode(", ", $fields) . " FROM " . $table;
+        $this->query->base = "SELECT ".implode(", ", $fields)." FROM ".$table;
         $this->query->type = 'select';
 
         return $this;
@@ -36,7 +36,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     public function insert(string $table, array $fields, array $values): IQueryBuilder
     {
         $this->reset();
-        $this->query->base = "INSERT INTO " .$table. '('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
+        $this->query->base = "INSERT INTO ".$table.'('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
         $this->query->type = 'insert';
 
         return $this;
@@ -51,7 +51,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     public function delete(string $table): IQueryBuilder
     {
         $this->reset();
-        $this->query->base = "DELETE FROM " . $table;
+        $this->query->base = "DELETE FROM ".$table;
         $this->query->type = 'delete';
 
         return $this;
@@ -83,7 +83,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     public function limit(int $limit): IQueryBuilder
     {
         if (in_array($this->query->type, ['select', 'delete'])) {
-            $this->query->limit = " LIMIT " . $limit;
+            $this->query->limit = " LIMIT ".$limit;
         }
 
         return $this;

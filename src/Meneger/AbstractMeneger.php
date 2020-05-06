@@ -19,7 +19,7 @@ abstract class AbstractMeneger implements IMeneger
     /**
      * @var IConnector
      */
-    private IConnector $connector;
+    protected IConnector $connector;
 
     /**
      * Конструктор.
