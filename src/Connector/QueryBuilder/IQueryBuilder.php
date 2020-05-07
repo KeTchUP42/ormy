@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace ORMY\Connector\QueryBuilder;
 
+use PDO;
+
 /**
  * IQueryBuilder
  */
@@ -15,24 +17,26 @@ interface IQueryBuilder
     public function getSQL(): string;
 
     /**
-     * Method calls connector's exec
+     * Method calls connector's exec method
      *
      * @return bool
      */
-    public function exec();
+    public function exec(): bool;
 
     /**
-     * Method calls connector's query
+     * Method calls connector's query method
      *
-     * @return \PDOStatement
+     * @param int $fetchStyle
+     *
+     * @return array
      */
-    public function query(): \PDOStatement;
+    public function query(int $fetchStyle = PDO::FETCH_ASSOC): array;
 
     /**
      *
      * @param string $table
      *
-     * @return $this|IQueryBuilder
+     * @return IQueryBuilder
      */
     public function delete(string $table): IQueryBuilder;
 
@@ -43,7 +47,7 @@ interface IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function select(string $table, array $fields): IQueryBuilder;
+    public function select(string $table,array $fields): IQueryBuilder;
 
     /**
      *
@@ -52,9 +56,9 @@ interface IQueryBuilder
      * @param array  $fields
      * @param array  $values
      *
-     * @return $this|IQueryBuilder
+     * @return IQueryBuilder
      */
-    public function insert(string $table, array $fields, array $values): IQueryBuilder;
+    public function insert(string $table,array $fields,array $values): IQueryBuilder;
 
     /**
      *
@@ -64,15 +68,22 @@ interface IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function where(string $field, string $value, string $operator = '='): IQueryBuilder;
+    public function where(string $field,string $value,string $operator = '='): IQueryBuilder;
 
     /**
      *
      * @param int $limit
      *
-     * @return $this|IQueryBuilder
+     * @return IQueryBuilder
      */
     public function limit(int $limit): IQueryBuilder;
-    //TODO add query build methods!
 
+    /**
+     *
+     * @param string $column
+     * @param string $orderType
+     *
+     * @return IQueryBuilder
+     */
+    public function order(string $column,string $orderType = 'ASC'): IQueryBuilder;
 }

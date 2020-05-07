@@ -21,9 +21,11 @@ interface IConnector
      *
      * @param string $sqlquery
      *
-     * @return bool|false|\PDOStatement
+     * @param int    $fetchStyle
+     *
+     * @return array
      */
-    public function query(string $sqlquery);
+    public function query(string $sqlquery,int $fetchStyle = PDO::FETCH_ASSOC): array;
 
     /**
      *
@@ -56,6 +58,13 @@ interface IConnector
      * @return bool|mixed
      */
     public function getProperty(string $name);
+
+    /**
+     * Получить DBName
+     *
+     * @return string
+     */
+    public function getDBName(): string;
 
     /**
      * Получить Pdo

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ORMY\Connector;
 
+use Exception;
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
 use ORMY\Connector\QueryBuilder\MySQLQueryBuilder;
 use ORMY\Exceptions\ConnectionException;
@@ -30,13 +31,12 @@ class Connector implements IConnector
      * @param string $host
      * @param string $pass
      */
-    public function __construct(string $dsn, string $host, string $pass)
+    public function __construct(string $dsn,string $host,string $pass)
     {
         try {
-            $this->pdo = new PDO($dsn, $host, $pass);
+            $this->pdo = new PDO($dsn,$host,$pass);
         } catch (\PDOException $exception) {
-            throw new ConnectionException('I can\'t connect to DB, check input args: '.__FILE__.' '.__LINE__."\n".$exception->errorInfo
-            );
+            throw new ConnectionException('DB connection error, check input args: '.__FILE__.' '.__LINE__);
         }
         $this->parseDsn($dsn);
     }
@@ -49,10 +49,10 @@ class Connector implements IConnector
     private function parseDsn(string $dsn): void
     {
         $this->properties['dsn']  = $dsn;
-        $body                     = explode(':', mb_strtolower($dsn), 2);
+        $body                     = explode(':',mb_strtolower($dsn),2);
         $this->properties['type'] = $body[0];
-        foreach (explode(';', $body[1]) as $value) {
-            $propertyKeyValue                       = explode('=', $value, 2);
+        foreach (explode(';',$body[1]) as $value) {
+            $propertyKeyValue                       = explode('=',$value,2);
             $this->properties[$propertyKeyValue[0]] = $propertyKeyValue[1];
         }
     }
@@ -99,7 +99,7 @@ class Connector implements IConnector
     {
         try {
             return $this->pdo->prepare($sqlquery);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return false;
         }
     }
@@ -110,11 +110,11 @@ class Connector implements IConnector
      *
      * @return bool
      */
-    public function exec(string $sqlquery)
+    public function exec(string $sqlquery): bool
     {
         try {
             return $this->pdo->prepare($sqlquery)->execute();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return false;
         }
     }
@@ -123,14 +123,16 @@ class Connector implements IConnector
      *
      * @param string $sqlquery
      *
-     * @return bool|false|\PDOStatement
+     * @param int    $fetchStyle
+     *
+     * @return array
      */
-    public function query(string $sqlquery)
+    public function query(string $sqlquery,int $fetchStyle = PDO::FETCH_ASSOC): array
     {
         try {
-            return $this->pdo->query($sqlquery);
-        } catch (\Exception $exception) {
-            return false;
+            return $this->pdo->query($sqlquery)->fetchAll($fetchStyle);
+        } catch (Exception $exception) {
+            return [];
         }
     }
 
@@ -141,5 +143,15 @@ class Connector implements IConnector
     public function getQueryBuilder(): IQueryBuilder
     {
         return new MySQLQueryBuilder($this);
+    }
+
+    /**
+     * Получить DBName
+     *
+     * @return string
+     */
+    public function getDBName(): string
+    {
+        return $this->getProperty('dbname');
     }
 }

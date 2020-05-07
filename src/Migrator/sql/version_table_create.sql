@@ -1,0 +1,1 @@
+CREATE TABLE :tablename ( `version` VARCHAR(30) NOT NULL , `executed_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`version`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;

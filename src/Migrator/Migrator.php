@@ -5,50 +5,45 @@ namespace ORMY\Migrator;
 
 use ORMY\Connector\IConnector;
 use ORMY\Exceptions\FileNotFoundException;
-use ORMY\Migrator\Source\AbstractMigrator;
-use ORMY\Migrator\Source\IDGenerator;
-use PDO;
+use ORMY\Migrator\Id\IDGenerator;
 
 /**
- * ORM Migrator
+ * Migrator
  */
 class Migrator extends AbstractMigrator
 {
     /**
-     * Configs form Migrator block in the ini config
+     * Configs from Migrator block from ini config
      *
      * @var array
      */
-    private array $migrConfigs;
+    private array $migrationConfigs;
 
     /**
-     * Configs form MigrationTemplate block in the ini config
+     * Configs from MigrationTemplate block from ini config
      *
      * @var array
      */
-    private array $tempConfigs;
+    private array $templConfigs;
 
     /**
      * Конструктор.
      *
      * @param IConnector $connector
-     * @param string     $migrDir
-     * @param string     $migrNameSpace
-     * @param string     $migrVersionTableName
+     * @param string     $migrationDir
+     * @param string     $migrationNameSpace
      */
     public function __construct(
         IConnector $connector,
-        string $migrDir,
-        string $migrNameSpace,
-        string $migrVersionTableName = 'migration_versions'
+        string $migrationDir,
+        string $migrationNameSpace
     ) {
-        parent::__construct($connector,
-            $migrDir,
-            $migrNameSpace,
-            ''
-        );
-        $this->migrVersionTableName = $this->connector->getProperty('dbname').'.'.$migrVersionTableName;
         $this->configure();
+        parent::__construct($connector,
+            $migrationDir,
+            $migrationNameSpace,
+            $this->migrationConfigs['VersionTableName']
+        );
     }
 
     /**
@@ -56,13 +51,14 @@ class Migrator extends AbstractMigrator
      */
     private function configure(): void
     {
-        $configs           = parse_ini_file(__DIR__.'/config/migrator.ini', true);
-        $this->migrConfigs = $configs['Migrator'];
-        $this->tempConfigs = $configs['MigrationTemplate'];
+        $configs                          = parse_ini_file(__DIR__.'/config/migrator.ini',true);
+        $this->migrationConfigs           = $configs['Migrator'];
+        $this->templConfigs               = $configs['MigrationTemplate'];
+        $this->migrationConfigs['suffix'] = basename($this->migrationConfigs['suffix'],'.php').'.php';
     }
 
     /**
-     * Method creates new migration and puts it the to migrations dir
+     * Method creates new migration and puts it to the migrations dir
      *
      * @param string $sqlQueryUp
      * @param string $sqlQueryDown
@@ -70,29 +66,29 @@ class Migrator extends AbstractMigrator
      * @return void
      * @throws FileNotFoundException
      */
-    public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void
+    public function makeMigration(string $sqlQueryUp,string $sqlQueryDown = ''): void
     {
-        $tempPath = __DIR__.$this->migrConfigs['migrTemplatePath'];
+        $tempPath = __DIR__.$this->migrationConfigs['TemplatePath'];
         if (!file_exists($tempPath)) {
             throw new FileNotFoundException('Template file not found!');
         }
-        $version = (new IDGenerator())->generateUniqueVersion($this->migrConfigs['migrPrefix']);
+        $version = (new IDGenerator())->generateUniqueVersion($this->migrationConfigs['prefix']);
 
-        file_put_contents($this->migrDir.'/'.$version.$this->migrConfigs['migrSuffix'],
+        file_put_contents($this->migrationDir.'/'.$version.$this->migrationConfigs['suffix'],
             str_replace([
-                $this->tempConfigs['version'],
-                $this->tempConfigs['queryUp'],
-                $this->tempConfigs['queryDown'],
-                $this->tempConfigs['namespace'],
-            ],
-                [$version, $sqlQueryUp, $sqlQueryDown, $this->migrNameSpace],
+                $this->templConfigs['version'],
+                $this->templConfigs['queryUp'],
+                $this->templConfigs['queryDown'],
+                $this->templConfigs['namespace']],
+                [$version,$sqlQueryUp,$sqlQueryDown,$this->migrationNameSpace],
                 file_get_contents($tempPath)
             )
         );
     }
 
     /**
-     * Method starts migrations and write their versions to db
+     * Method calls up methods in new migrations
+     * and writes to db new executed version
      *
      * @return bool
      */
@@ -101,12 +97,11 @@ class Migrator extends AbstractMigrator
         $result = false;
         $this->createVersionTable();
         $versions = $this->selectAllVersions();
-        foreach (glob($this->migrDir.'/'.$this->migrConfigs['migrPrefix'].'*'.$this->migrConfigs['migrSuffix']
-        ) as $migrationFilePath) {
-            if ($this->checkVersions($versions, $migrationFilePath, $this->migrConfigs['migrSuffix'])) {
-                $migration = $this->migrNameSpace.'\\'.(basename($migrationFilePath, '.php'));
+        foreach (glob($this->migrationSearchPattern()) as $migrationFilePath) {
+            if ($this->checkVersions($versions,$migrationFilePath,$this->migrationConfigs['suffix'])) {
+                $migration = $this->migrationNameSpace.'\\'.(basename($migrationFilePath,'.php'));
                 (new $migration($this->connector))->up();
-                $this->insertExecutedVersion(basename($migrationFilePath, $this->migrConfigs['migrSuffix']));
+                $this->insertExecutedVersion(basename($migrationFilePath,$this->migrationConfigs['suffix']));
                 $result = true;
             }
         }
@@ -120,8 +115,8 @@ class Migrator extends AbstractMigrator
     private function createVersionTable(): void
     {
         $this->connector->exec(str_replace(':tablename',
-                $this->migrVersionTableName,
-                file_get_contents(__DIR__.'/SQL/version_table_create.sql')
+                $this->versionTableName,
+                file_get_contents(__DIR__.'/sql/version_table_create.sql')
             )
         );
     }
@@ -133,11 +128,17 @@ class Migrator extends AbstractMigrator
      */
     private function selectAllVersions(): array
     {
-        return $this->connector->getQueryBuilder()
-            ->select($this->migrVersionTableName, ['`version`'])
-            ->query()
-            ->fetchAll(PDO::FETCH_ASSOC
-            );
+        return $this->connector->getQueryBuilder()->select($this->versionTableName,['`version`'])->query();
+    }
+
+    /**
+     * Method makes shorter main part of code
+     *
+     * @return string
+     */
+    private function migrationSearchPattern(): string
+    {
+        return $this->migrationDir.'/'.$this->migrationConfigs['prefix'].'*'.$this->migrationConfigs['suffix'];
     }
 
     /**
@@ -150,10 +151,10 @@ class Migrator extends AbstractMigrator
      *
      * @return bool
      */
-    private function checkVersions(array $versions, string $migrationFilePath, string $migrationFilePathSuffix): bool
+    private function checkVersions(array $versions,string $migrationFilePath,string $migrationFilePathSuffix): bool
     {
         foreach ($versions as $value) {
-            if ($value['version'] === basename($migrationFilePath, $migrationFilePathSuffix)) {
+            if ($value['version'] === basename($migrationFilePath,$migrationFilePathSuffix)) {
                 return false;
             }
         }
@@ -168,13 +169,12 @@ class Migrator extends AbstractMigrator
      */
     private function insertExecutedVersion(string $version): void
     {
-        $this->connector->getQueryBuilder()
-            ->insert($this->migrVersionTableName, ['`version`'], ['\''.$version.'\''])
-            ->exec();
+        $this->connector->getQueryBuilder()->insert($this->versionTableName,['`version`'],["'$version'"])->exec();
     }
 
     /**
-     * Method executes all down migrations methods
+     * Method calls all down methods in migrations
+     * and deletes all executed versions from db
      *
      * @return bool
      */
@@ -182,12 +182,11 @@ class Migrator extends AbstractMigrator
     {
         $result   = false;
         $versions = $this->selectAllVersions();
-        foreach (array_reverse(glob($this->migrDir.'/'.$this->migrConfigs['migrPrefix'].'*'.$this->migrConfigs['migrSuffix'])
-        ) as $migrationFilePath) {
-            if (!$this->checkVersions($versions, $migrationFilePath, $this->migrConfigs['migrSuffix'])) {
-                $migration = $this->migrNameSpace.'\\'.(basename($migrationFilePath, '.php'));
+        foreach (array_reverse(glob($this->migrationSearchPattern())) as $migrationFilePath) {
+            if (!$this->checkVersions($versions,$migrationFilePath,$this->migrationConfigs['suffix'])) {
+                $migration = $this->migrationNameSpace.'\\'.(basename($migrationFilePath,'.php'));
                 (new $migration($this->connector))->down();
-                $this->deleteRow(basename($migrationFilePath, $this->migrConfigs['migrSuffix']));
+                $this->deleteRow(basename($migrationFilePath,$this->migrationConfigs['suffix']));
                 $result = true;
             }
         }
@@ -202,6 +201,6 @@ class Migrator extends AbstractMigrator
      */
     private function deleteRow(string $version): void
     {
-        $this->connector->getQueryBuilder()->delete($this->migrVersionTableName)->where('`version`', $version)->exec();
+        $this->connector->getQueryBuilder()->delete($this->versionTableName)->where('`version`',$version)->exec();
     }
 }

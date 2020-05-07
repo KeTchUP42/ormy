@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ORMY\Meneger;
 
-use ORMY\Connector\IConnector;
+use ORMY\Connector\QueryBuilder\IQueryBuilder;
 
 /**
  * IMeneger
@@ -11,23 +11,42 @@ use ORMY\Connector\IConnector;
 interface IMeneger
 {
     /**
+     * Method makes code shorter
      *
-     * @return IConnector
+     * @return IQueryBuilder
      */
-    public function getConnector(): IConnector;
+    public function buildQuery(): IQueryBuilder;
 
     /**
+     * Method creates new entity and put it to the repository
      *
-     * @param string $classPath
+     * @param string $className
      *
-     * @return mixed
+     * @return bool|mixed
      */
-    public function installRepository(string $classPath);
+    public function fillRepository(string $className);
 
     /**
      * Method sends new info to db from container
      *
-     * @return bool
+     * @return void
      */
-    public function flush(): bool;
+    public function flush(): void;
+
+    /**
+     * Method builds QueryBuilder from container info
+     *
+     * @return IQueryBuilder
+     */
+    public function build(): IQueryBuilder;
+
+    /**
+     * Method cleans repository
+     */
+    public function clean(): void;
+
+    /**
+     * Method calls flush and clean
+     */
+    public function flush_and_clean(): void;
 }

@@ -3,33 +3,15 @@ declare(strict_types = 1);
 
 namespace ORMY\App;
 
+use ORMY\Connector\IConnector;
 use ORMY\Meneger\Meneger;
-use ORMY\Migrator\Source\IMigrator;
-use ORMY\Migrator\Source\IMigratorFull;
+use ORMY\Migrator\IMigrator;
 
 /**
- *  IOrmy params
+ * IOrmy
  */
 interface IOrmy
 {
-    public const NAMESPACE_AUTO = 'auto';
-
-    /**
-     * Reset Migrator.
-     *
-     * @param string $migrationDir
-     *
-     * @param string $migrationNameSpace
-     * @param string $migrationVerTableName
-     *
-     * @return Ormy
-     */
-    public function resetMigrator(
-        string $migrationVerTableName,
-        string $migrationDir,
-        string $migrationNameSpace = self::NAMESPACE_AUTO
-    ): Ormy;
-
     /**
      * Получить Meneger
      *
@@ -45,9 +27,7 @@ interface IOrmy
     public function getMigrator(): IMigrator;
 
     /**
-     * Получить Migrator
-     *
-     * @return IMigratorFull
+     * @return IConnector
      */
-    public function getFullMigrator(): IMigratorFull;
+    public function getConnector(): IConnector;
 }
