@@ -70,9 +70,9 @@ class Migrator extends AbstractMigrator
     {
         $tempPath = __DIR__.$this->migrationConfigs['TemplatePath'];
         if (!file_exists($tempPath)) {
-            throw new FileNotFoundException('Template file not found!');
+            throw new FileNotFoundException('Migration template file not found!');
         }
-        $version = (new IDGenerator())->generateUniqueVersion($this->migrationConfigs['prefix']);
+        $version = (new IDGenerator())->generateVersion($this->migrationConfigs['prefix']);
 
         file_put_contents($this->migrationDir.'/'.$version.$this->migrationConfigs['suffix'],
             str_replace([

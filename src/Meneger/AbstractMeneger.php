@@ -35,7 +35,9 @@ abstract class AbstractMeneger implements IMeneger
     {
         try {
             $this->repository = new $className;
-            $this->tableName  = array_reverse(explode('\\',$className))[0];
+            $tableName        = array_reverse(explode('\\',$className))[0];
+            $DBName           = ($this->connector->getDBName());
+            $this->tableName  = "`$DBName`.`$tableName`";
         } catch (Exception $exception) {
             return false;
         }

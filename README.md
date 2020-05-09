@@ -31,7 +31,7 @@ My little realization of simple orm just for fun.
      echo $ormy->getMeneger()->build()->getSQL();
 ##### Output:
    
-    INSERT INTO main(`text`) VALUES ('Hello World!');
+    INSERT INTO `dev`.`main`(`text`) VALUES ('Hello World!');
 #### NOTICE:
     Entity class don't need to have getters only setters to configure.
 

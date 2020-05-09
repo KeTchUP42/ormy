@@ -36,7 +36,7 @@ class Connector implements IConnector
         try {
             $this->pdo = new PDO($dsn,$host,$pass);
         } catch (\PDOException $exception) {
-            throw new ConnectionException('DB connection error, check input args: '.__FILE__.' '.__LINE__);
+            throw new ConnectionException('DataBase connection error, check input args!');
         }
         $this->parseDsn($dsn);
     }
@@ -132,7 +132,7 @@ class Connector implements IConnector
         try {
             return $this->pdo->query($sqlquery)->fetchAll($fetchStyle);
         } catch (Exception $exception) {
-            return [];
+            return ['result' => false];
         }
     }
 

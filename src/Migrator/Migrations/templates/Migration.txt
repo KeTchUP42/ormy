@@ -12,8 +12,10 @@ use ORMY\Migrator\Migrations\AbstractMigration;
 class %version%Migration extends AbstractMigration
 {
     /**
-     * Change method's query if it doesn't correct
-     * Then migrate down and up
+     * Change method's query if it doesn't correct.
+     * Then migrate down and up to rebuild your DB.
+     *
+     * Method apply DB changes.
      */
     public function up(): void
     {
@@ -21,7 +23,7 @@ class %version%Migration extends AbstractMigration
     }
 
     /**
-     * Method roll back db changes
+     * Method roll back DB changes.
      */
     public function down(): void
     {

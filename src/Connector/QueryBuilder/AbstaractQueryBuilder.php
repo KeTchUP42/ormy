@@ -29,7 +29,7 @@ abstract class AbstaractQueryBuilder
     }
 
     /**
-     * Method builds sql
+     * Method builds sql query
      *
      * @return string
      */

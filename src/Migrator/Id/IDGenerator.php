@@ -9,7 +9,7 @@ namespace ORMY\Migrator\Id;
 class IDGenerator
 {
     /**
-     * Version version timespan corrector
+     * Version timespan corrector
      *
      * @var int
      */
@@ -22,7 +22,7 @@ class IDGenerator
      *
      * @return string
      */
-    public function generateUniqueVersion(string $prefix): string
+    public function generateVersion(string $prefix): string
     {
         return $prefix.((new \DateTime())->getTimestamp() + self::$VersionCorrector++);
     }
