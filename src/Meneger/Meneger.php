@@ -19,17 +19,19 @@ class Meneger extends AbstractMeneger
      */
     public function build(object $entity): IQueryBuilder
     {
-        $fields = [];
-        $values = [];
+        $columns = [];
+        $values  = [];
         foreach ($this->object_vars($entity) as $key => $value) {
-            $fields[] = "`$key`";
-            $values[] = is_null($value) ? 'null' : (is_string($value) ? "'$value'" : $value);
+            if (!is_object($value) && !is_array($value) && !is_resource($value)) {
+                $columns[] = "`$key`";
+                $values[]  = $this->typeConvert($value);
+            }
         }
         $tableName = $this->get_class_name(get_class($entity));
         $DBName    = ($this->connector->getDBName());
         $tableName = "`$DBName`.`$tableName`";
 
-        return $this->connector->getQueryBuilder()->insert($tableName,$fields,$values);
+        return $this->connector->getQueryBuilder()->insert($tableName,$columns,$values);
     }
 
     /**
@@ -41,19 +43,41 @@ class Meneger extends AbstractMeneger
      */
     private function object_vars(object $object): array
     {
-        $objVars['SRC_KEY'] = (array) $object;
-        foreach ($objVars['SRC_KEY'] as $key => $value) {
-            $aux              = explode("\0",$key);
-            $newkey           = $aux[count($aux) - 1];
-            $objVars[$newkey] = &$objVars['SRC_KEY'][$key];
+        $objectVars['SRC_KEY'] = (array) $object;
+        foreach ($objectVars['SRC_KEY'] as $key => $value) {
+            $aux                 = explode("\0",$key);
+            $newkey              = $aux[count($aux) - 1];
+            $objectVars[$newkey] = &$objectVars['SRC_KEY'][$key];
         }
-        unset($objVars['SRC_KEY']);
+        unset($objectVars['SRC_KEY']);
 
-        return $objVars;
+        return $objectVars;
     }
 
     /**
-     * Method returns shorm class name
+     * Method returns sql valid converted value
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    private function typeConvert($value): string
+    {
+        if (is_null($value)) {
+            return 'NULL';
+        }
+        if (is_bool($value)) {
+            return $value ? 'TRUE' : 'FALSE';
+        }
+        if (is_string($value)) {
+            return "'$value'";
+        }
+
+        return (string) $value;
+    }
+
+    /**
+     * Method returns short class name
      *
      * @param $classname
      *
