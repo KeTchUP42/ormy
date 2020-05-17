@@ -29,18 +29,18 @@ interface IMeneger
     /**
      * Method sends new info to db from container
      *
-     * @param $entity
+     * @param object $entity
      *
      * @return void
      */
-    public function flush($entity): void;
+    public function flush(object $entity): void;
 
     /**
      * Method builds QueryBuilder from container info
      *
-     * @param $entity
+     * @param object $entity
      *
      * @return IQueryBuilder
      */
-    public function build($entity): IQueryBuilder;
+    public function build(object $entity): IQueryBuilder;
 }

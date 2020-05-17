@@ -43,21 +43,21 @@ abstract class AbstractMeneger implements IMeneger
     /**
      * Method sends new info to db from repository
      *
-     * @param $repository
+     * @param $entity
      *
      * @return void
      */
-    public function flush($repository): void
+    public function flush(object $entity): void
     {
-        $this->build($repository)->exec();
+        $this->build($entity)->exec();
     }
 
     /**
      * Method builds IQueryBuilder from container vars
      *
-     * @param $repository
+     * @param $entity
      *
      * @return IQueryBuilder
      */
-    abstract public function build($repository): IQueryBuilder;
+    abstract public function build(object $entity): IQueryBuilder;
 }

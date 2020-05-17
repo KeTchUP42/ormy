@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace ORMY\Meneger;
 
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
-use ORMY\Exceptions\MenegerException;
 
 /**
  * ORM Meneger
@@ -14,21 +13,19 @@ class Meneger extends AbstractMeneger
     /**
      * Method builds IQueryBuilder from container vars
      *
-     * @param $repository
+     * @param object $entity
      *
      * @return IQueryBuilder
-     * @throws MenegerException
      */
-    public function build($repository): IQueryBuilder
+    public function build(object $entity): IQueryBuilder
     {
-        $this->valueValid($repository);
         $fields = [];
         $values = [];
-        foreach ($this->objectVars($repository) as $key => $value) {
+        foreach ($this->object_vars($entity) as $key => $value) {
             $fields[] = "`$key`";
             $values[] = is_null($value) ? 'null' : (is_string($value) ? "'$value'" : $value);
         }
-        $tableName = array_reverse(explode('\\',get_class($repository)))[0];
+        $tableName = $this->get_class_name(get_class($entity));
         $DBName    = ($this->connector->getDBName());
         $tableName = "`$DBName`.`$tableName`";
 
@@ -36,26 +33,15 @@ class Meneger extends AbstractMeneger
     }
 
     /**
-     * @param $value
-     */
-    private function valueValid($value): void
-    {
-        if (!is_object($value)) {
-            throw new MenegerException('Value is not correct. Please, check it!');
-        }
-    }
-
-    /**
      * Method returns repository's vars names and values
      *
-     * @param $repository
+     * @param object $object
      *
      * @return array
      */
-    private function objectVars($repository): array
+    private function object_vars(object $object): array
     {
-        $this->valueValid($repository);
-        $objVars['SRC_KEY'] = (array) $repository;
+        $objVars['SRC_KEY'] = (array) $object;
         foreach ($objVars['SRC_KEY'] as $key => $value) {
             $aux              = explode("\0",$key);
             $newkey           = $aux[count($aux) - 1];
@@ -64,5 +50,22 @@ class Meneger extends AbstractMeneger
         unset($objVars['SRC_KEY']);
 
         return $objVars;
+    }
+
+    /**
+     * Method returns shorm class name
+     *
+     * @param $classname
+     *
+     * @return string
+     */
+    private function get_class_name(string $classname): string
+    {
+        $pos = strrpos($classname,'\\');
+        if ($pos) {
+            return substr($classname,$pos + 1);
+        }
+
+        return $classname;
     }
 }
