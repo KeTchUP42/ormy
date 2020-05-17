@@ -24,29 +24,23 @@ interface IMeneger
      *
      * @return bool|mixed
      */
-    public function fillRepository(string $className);
+    public function getRepository(string $className);
 
     /**
      * Method sends new info to db from container
      *
+     * @param $entity
+     *
      * @return void
      */
-    public function flush(): void;
+    public function flush($entity): void;
 
     /**
      * Method builds QueryBuilder from container info
      *
+     * @param $entity
+     *
      * @return IQueryBuilder
      */
-    public function build(): IQueryBuilder;
-
-    /**
-     * Method cleans repository
-     */
-    public function clean(): void;
-
-    /**
-     * Method calls flush and clean
-     */
-    public function flush_and_clean(): void;
+    public function build($entity): IQueryBuilder;
 }

@@ -15,34 +15,19 @@ abstract class AbstractMeneger implements IMeneger
     use ConnectorTrait;
 
     /**
-     * @var mixed
-     */
-    protected $repository;
-
-    /**
-     * @var string
-     */
-    protected ?string       $tableName;
-
-    /**
      * Method creates new entity and put it to repository
      *
      * @param string $className
      *
      * @return bool|mixed
      */
-    public function fillRepository(string $className)
+    public function getRepository(string $className)
     {
         try {
-            $this->repository = new $className;
-            $tableName        = array_reverse(explode('\\',$className))[0];
-            $DBName           = ($this->connector->getDBName());
-            $this->tableName  = "`$DBName`.`$tableName`";
+            return new $className;
         } catch (Exception $exception) {
             return false;
         }
-
-        return $this->repository;
     }
 
     /**
@@ -56,37 +41,23 @@ abstract class AbstractMeneger implements IMeneger
     }
 
     /**
-     * Method calls flush and clean
-     */
-    public function flush_and_clean(): void
-    {
-        $this->flush();
-        $this->clean();
-    }
-
-    /**
      * Method sends new info to db from repository
+     *
+     * @param $repository
      *
      * @return void
      */
-    public function flush(): void
+    public function flush($repository): void
     {
-        $this->build()->exec();
+        $this->build($repository)->exec();
     }
 
     /**
      * Method builds IQueryBuilder from container vars
      *
+     * @param $repository
+     *
      * @return IQueryBuilder
      */
-    abstract public function build(): IQueryBuilder;
-
-    /**
-     * Method cleans repository
-     */
-    public function clean(): void
-    {
-        $this->tableName  = null;
-        $this->repository = null;
-    }
+    abstract public function build($repository): IQueryBuilder;
 }

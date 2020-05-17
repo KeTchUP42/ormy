@@ -18,23 +18,25 @@ My little realization of simple orm just for fun.
     $ormy->getMigrator()->migrateDown();
 #### You have called 'down' method in all executed migration and cleaned 'migration version' table in your DB.
 
-### Meneger:        
-    $obj = $ormy->getMeneger()->fillRepository(Tables\main::class);
-    $obj->setText('Hello World!');
-   
-    $ormy->getMeneger()->flush();
-    $ormy->getMeneger()->flush_and_clean();
-#### This code sends insert query 2 times to table main and cleans meneger repository.
+### Meneger:            
+
+    $entity = $ormy->getMeneger()->getRepository(Entity\main::class);
+    $entity->setText('Hello World!');
+    $ormy->getMeneger()->flush($entity);
+    $ormy->getMeneger()->flush($entity);
+#### This code sends insert query 2 times to table main.
 #### Example:    
-     $obj = $ormy->getMeneger()->fillRepository(Tables\main::class);
-     $obj->setText('Hello World!');
-     echo $ormy->getMeneger()->build()->getSQL();
+   
+     $entity = $ormy->getMeneger()->getRepository(Entity\main::class);
+     $entity->setText('Hello World!');
+     echo $ormy->getMeneger()->build($entity)->getSQL();
 ##### Output:
    
     INSERT INTO `dev`.`main`(`text`) VALUES ('Hello World!');
 #### NOTICE:
-    Entity class don't need to have getters only setters to configure.
 
+    Entity class don't need to have getters only setters to configure. 
+    Meneger gets your entity fields as table columns. Example: private string $text => `text`
 ### Connector:
     $ormy->getConnector();
     

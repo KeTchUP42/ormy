@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace ORMY\Meneger;
 
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
-use ORMY\Exceptions\EmptyRepositoryException;
+use ORMY\Exceptions\MenegerException;
 
 /**
  * ORM Meneger
@@ -14,31 +14,48 @@ class Meneger extends AbstractMeneger
     /**
      * Method builds IQueryBuilder from container vars
      *
+     * @param $repository
+     *
      * @return IQueryBuilder
+     * @throws MenegerException
      */
-    public function build(): IQueryBuilder
+    public function build($repository): IQueryBuilder
     {
-        if (is_null($this->tableName) || is_null($this->repository)) {
-            throw new EmptyRepositoryException('Repository is empty! Please, fill it.');
-        }
+        $this->valueValid($repository);
         $fields = [];
         $values = [];
-        foreach ($this->objectVars() as $key => $value) {
+        foreach ($this->objectVars($repository) as $key => $value) {
             $fields[] = "`$key`";
             $values[] = is_null($value) ? 'null' : (is_string($value) ? "'$value'" : $value);
         }
+        $tableName = array_reverse(explode('\\',get_class($repository)))[0];
+        $DBName    = ($this->connector->getDBName());
+        $tableName = "`$DBName`.`$tableName`";
 
-        return $this->connector->getQueryBuilder()->insert($this->tableName,$fields,$values);
+        return $this->connector->getQueryBuilder()->insert($tableName,$fields,$values);
+    }
+
+    /**
+     * @param $value
+     */
+    private function valueValid($value): void
+    {
+        if (!is_object($value)) {
+            throw new MenegerException('Value is not correct. Please, check it!');
+        }
     }
 
     /**
      * Method returns repository's vars names and values
      *
+     * @param $repository
+     *
      * @return array
      */
-    private function objectVars(): array
+    private function objectVars($repository): array
     {
-        $objVars['SRC_KEY'] = (array) $this->repository;
+        $this->valueValid($repository);
+        $objVars['SRC_KEY'] = (array) $repository;
         foreach ($objVars['SRC_KEY'] as $key => $value) {
             $aux              = explode("\0",$key);
             $newkey           = $aux[count($aux) - 1];

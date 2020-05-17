@@ -79,7 +79,8 @@ class Migrator extends AbstractMigrator
                 $this->templConfigs['version'],
                 $this->templConfigs['queryUp'],
                 $this->templConfigs['queryDown'],
-                $this->templConfigs['namespace']],
+                $this->templConfigs['namespace']
+            ],
                 [$version,$sqlQueryUp,$sqlQueryDown,$this->migrationNameSpace],
                 file_get_contents($tempPath)
             )
