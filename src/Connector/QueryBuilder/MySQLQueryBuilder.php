@@ -15,10 +15,10 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function select(string $table,array $fields): IQueryBuilder
+    public function select(string $table, array $fields): IQueryBuilder
     {
         $this->reset();
-        $this->query->base = "SELECT ".implode(", ",$fields)." FROM ".$table;
+        $this->query->base = "SELECT " . implode(", ", $fields) . " FROM " . $table;
         $this->query->type = 'select';
 
         return $this;
@@ -33,7 +33,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function insert(string $table,array $fields,array $values): IQueryBuilder
+    public function insert(string $table, array $fields, array $values): IQueryBuilder
     {
         $this->reset();
         $this->query->base = "INSERT INTO ".$table.'('.implode(', ',$fields).') VALUES ('.implode(', ',$values).')';
@@ -51,7 +51,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     public function delete(string $table): IQueryBuilder
     {
         $this->reset();
-        $this->query->base = "DELETE FROM ".$table;
+        $this->query->base = "DELETE FROM " . $table;
         $this->query->type = 'delete';
 
         return $this;
@@ -65,9 +65,9 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function where(string $field,string $value,string $operator = '='): IQueryBuilder
+    public function where(string $field, string $value, string $operator = '='): IQueryBuilder
     {
-        if (in_array($this->query->type,['select','update','delete'])) {
+        if (in_array($this->query->type, ['select', 'update', 'delete'])) {
             $this->query->where[] = "$field $operator '$value'";
         }
 
@@ -82,8 +82,8 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      */
     public function limit(int $limit): IQueryBuilder
     {
-        if (in_array($this->query->type,['select','delete'])) {
-            $this->query->limit = " LIMIT ".$limit;
+        if (in_array($this->query->type, ['select', 'delete'])) {
+            $this->query->limit = " LIMIT " . $limit;
         }
 
         return $this;
@@ -96,10 +96,10 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function order(string $column,string $orderType = 'ASC'): IQueryBuilder
+    public function order(string $column, string $orderType = 'ASC'): IQueryBuilder
     {
-        if (!isset($this->query->limit) && in_array($this->query->type,['select','delete'])) {
-            $this->query->order = " ORDER BY ".$column." $orderType";
+        if (!isset($this->query->limit) && in_array($this->query->type, ['select', 'delete'])) {
+            $this->query->order = " ORDER BY " . $column . " $orderType";
         }
 
         return $this;

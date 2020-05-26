@@ -20,7 +20,7 @@ interface IMigrator
      * @return void
      * @throws FileNotFoundException
      */
-    public function makeMigration(string $sqlQueryUp,string $sqlQueryDown = ''): void;
+    public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void;
 
     /**
      * Method calls up methods in new migrations

@@ -38,7 +38,7 @@ abstract class AbstaractQueryBuilder
         $query    = $this->query;
         $sqlQuery = $query->base;
         if (!empty($query->where)) {
-            $sqlQuery .= " WHERE ".implode(' AND ',$query->where);
+            $sqlQuery .= " WHERE " . implode(' AND ', $query->where);
         }
         if (isset($query->order)) {
             $sqlQuery .= $query->order;
@@ -60,7 +60,7 @@ abstract class AbstaractQueryBuilder
      */
     public function query(int $fetchStyle = PDO::FETCH_ASSOC): array
     {
-        return $this->connector->query($this->getSQL(),$fetchStyle);
+        return $this->connector->query($this->getSQL(), $fetchStyle);
     }
 
     /**

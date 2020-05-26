@@ -47,7 +47,7 @@ interface IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function select(string $table,array $fields): IQueryBuilder;
+    public function select(string $table, array $fields): IQueryBuilder;
 
     /**
      *
@@ -58,7 +58,7 @@ interface IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function insert(string $table,array $fields,array $values): IQueryBuilder;
+    public function insert(string $table, array $fields, array $values): IQueryBuilder;
 
     /**
      *
@@ -68,7 +68,7 @@ interface IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function where(string $field,string $value,string $operator = '='): IQueryBuilder;
+    public function where(string $field, string $value, string $operator = '='): IQueryBuilder;
 
     /**
      *
@@ -85,5 +85,5 @@ interface IQueryBuilder
      *
      * @return IQueryBuilder
      */
-    public function order(string $column,string $orderType = 'ASC'): IQueryBuilder;
+    public function order(string $column, string $orderType = 'ASC'): IQueryBuilder;
 }

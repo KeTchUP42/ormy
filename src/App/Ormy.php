@@ -49,7 +49,7 @@ class Ormy implements IOrmy
         string $migrationDir,
         string $migrationNameSpace = null
     ) {
-        $this->connector = new Connector($dsn,$user,$pass);
+        $this->connector = new Connector($dsn, $user, $pass);
         $this->meneger   = new Meneger($this->connector);
         $this->migrator  = new Migrator($this->connector,$migrationDir,$migrationNameSpace ?? basename($migrationDir)
         );

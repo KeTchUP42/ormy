@@ -22,8 +22,8 @@ class IDGenerator
      *
      * @return string
      */
-    public function generateVersion(string $prefix): string
+    public static function generateVersion(string $prefix): string
     {
-        return $prefix.((new \DateTime())->getTimestamp() + self::$VersionCorrector++);
+        return $prefix . ((new \DateTime())->getTimestamp() + self::$VersionCorrector++);
     }
 }

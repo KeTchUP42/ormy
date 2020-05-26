@@ -31,10 +31,10 @@ class Connector implements IConnector
      * @param string $host
      * @param string $pass
      */
-    public function __construct(string $dsn,string $host,string $pass)
+    public function __construct(string $dsn, string $host, string $pass)
     {
         try {
-            $this->pdo = new PDO($dsn,$host,$pass);
+            $this->pdo = new PDO($dsn, $host, $pass);
         } catch (\PDOException $exception) {
             throw new ConnectionException('DataBase connection error, check input args!');
         }
@@ -49,10 +49,10 @@ class Connector implements IConnector
     private function parseDsn(string $dsn): void
     {
         $this->properties['dsn']  = $dsn;
-        $body                     = explode(':',mb_strtolower($dsn),2);
+        $body                     = explode(':', mb_strtolower($dsn), 2);
         $this->properties['type'] = $body[0];
-        foreach (explode(';',$body[1]) as $value) {
-            $propertyKeyValue                       = explode('=',$value,2);
+        foreach (explode(';', $body[1]) as $value) {
+            $propertyKeyValue                       = explode('=', $value, 2);
             $this->properties[$propertyKeyValue[0]] = $propertyKeyValue[1];
         }
     }
@@ -127,7 +127,7 @@ class Connector implements IConnector
      *
      * @return array
      */
-    public function query(string $sqlquery,int $fetchStyle = PDO::FETCH_ASSOC): array
+    public function query(string $sqlquery, int $fetchStyle = PDO::FETCH_ASSOC): array
     {
         try {
             return $this->pdo->query($sqlquery)->fetchAll($fetchStyle);

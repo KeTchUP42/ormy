@@ -39,7 +39,8 @@ class Migrator extends AbstractMigrator
         string $migrationNameSpace
     ) {
         $this->configure();
-        parent::__construct($connector,
+        parent::__construct(
+            $connector,
             $migrationDir,
             $migrationNameSpace,
             $this->migrationConfigs['VersionTableName']
@@ -51,10 +52,10 @@ class Migrator extends AbstractMigrator
      */
     private function configure(): void
     {
-        $configs                          = parse_ini_file(__DIR__.'/config/migrator.ini',true);
+        $configs                          = parse_ini_file(__DIR__ . '/config/migrator.ini', true);
         $this->migrationConfigs           = $configs['Migrator'];
         $this->templConfigs               = $configs['MigrationTemplate'];
-        $this->migrationConfigs['suffix'] = basename($this->migrationConfigs['suffix'],'.php').'.php';
+        $this->migrationConfigs['suffix'] = basename($this->migrationConfigs['suffix'], '.php') . '.php';
     }
 
     /**
@@ -66,22 +67,22 @@ class Migrator extends AbstractMigrator
      * @return void
      * @throws FileNotFoundException
      */
-    public function makeMigration(string $sqlQueryUp,string $sqlQueryDown = ''): void
+    public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void
     {
-        $tempPath = __DIR__.$this->migrationConfigs['TemplatePath'];
+        $tempPath = __DIR__ . $this->migrationConfigs['TemplatePath'];
         if (!file_exists($tempPath)) {
             throw new FileNotFoundException('Migration template file not found!');
         }
-        $version = (new IDGenerator())->generateVersion($this->migrationConfigs['prefix']);
-
-        file_put_contents($this->migrationDir.'/'.$version.$this->migrationConfigs['suffix'],
-            str_replace([
-                $this->templConfigs['version'],
-                $this->templConfigs['queryUp'],
-                $this->templConfigs['queryDown'],
-                $this->templConfigs['namespace']
-            ],
-                [$version,$sqlQueryUp,$sqlQueryDown,$this->migrationNameSpace],
+        $version = IDGenerator::generateVersion($this->migrationConfigs['prefix']);
+        file_put_contents($this->migrationDir . '/' . $version . $this->migrationConfigs['suffix'],
+            str_replace(
+                [
+                    $this->templConfigs['version'],
+                    $this->templConfigs['queryUp'],
+                    $this->templConfigs['queryDown'],
+                    $this->templConfigs['namespace']
+                ],
+                [$version, $sqlQueryUp, $sqlQueryDown, $this->migrationNameSpace],
                 file_get_contents($tempPath)
             )
         );
@@ -99,10 +100,10 @@ class Migrator extends AbstractMigrator
         $this->createVersionTable();
         $versions = $this->selectAllVersions();
         foreach (glob($this->migrationSearchPattern()) as $migrationFilePath) {
-            if ($this->checkVersions($versions,$migrationFilePath,$this->migrationConfigs['suffix'])) {
-                $migration = $this->migrationNameSpace.'\\'.(basename($migrationFilePath,'.php'));
+            if ($this->checkVersions($versions, $migrationFilePath, $this->migrationConfigs['suffix'])) {
+                $migration = $this->migrationNameSpace . '\\' . (basename($migrationFilePath, '.php'));
                 (new $migration($this->connector))->up();
-                $this->insertExecutedVersion(basename($migrationFilePath,$this->migrationConfigs['suffix']));
+                $this->insertExecutedVersion(basename($migrationFilePath, $this->migrationConfigs['suffix']));
                 $result = true;
             }
         }
@@ -117,7 +118,7 @@ class Migrator extends AbstractMigrator
     {
         $this->connector->exec(str_replace(':tablename',
                 $this->versionTableName,
-                file_get_contents(__DIR__.'/sql/version_table_create.sql')
+                file_get_contents(__DIR__ . '/sql/version_table_create.sql')
             )
         );
     }
@@ -129,7 +130,7 @@ class Migrator extends AbstractMigrator
      */
     private function selectAllVersions(): array
     {
-        return $this->connector->getQueryBuilder()->select($this->versionTableName,['`version`'])->query();
+        return $this->connector->getQueryBuilder()->select($this->versionTableName, ['`version`'])->query();
     }
 
     /**
@@ -139,7 +140,7 @@ class Migrator extends AbstractMigrator
      */
     private function migrationSearchPattern(): string
     {
-        return $this->migrationDir.'/'.$this->migrationConfigs['prefix'].'*'.$this->migrationConfigs['suffix'];
+        return $this->migrationDir . '/' . $this->migrationConfigs['prefix'] . '*' . $this->migrationConfigs['suffix'];
     }
 
     /**
@@ -152,10 +153,10 @@ class Migrator extends AbstractMigrator
      *
      * @return bool
      */
-    private function checkVersions(array $versions,string $migrationFilePath,string $migrationFilePathSuffix): bool
+    private function checkVersions(array $versions, string $migrationFilePath, string $migrationFilePathSuffix): bool
     {
         foreach ($versions as $value) {
-            if ($value['version'] === basename($migrationFilePath,$migrationFilePathSuffix)) {
+            if ($value['version'] === basename($migrationFilePath, $migrationFilePathSuffix)) {
                 return false;
             }
         }
@@ -170,7 +171,7 @@ class Migrator extends AbstractMigrator
      */
     private function insertExecutedVersion(string $version): void
     {
-        $this->connector->getQueryBuilder()->insert($this->versionTableName,['`version`'],["'$version'"])->exec();
+        $this->connector->getQueryBuilder()->insert($this->versionTableName, ['`version`'], ["'$version'"])->exec();
     }
 
     /**
@@ -184,10 +185,10 @@ class Migrator extends AbstractMigrator
         $result   = false;
         $versions = $this->selectAllVersions();
         foreach (array_reverse(glob($this->migrationSearchPattern())) as $migrationFilePath) {
-            if (!$this->checkVersions($versions,$migrationFilePath,$this->migrationConfigs['suffix'])) {
-                $migration = $this->migrationNameSpace.'\\'.(basename($migrationFilePath,'.php'));
+            if (!$this->checkVersions($versions, $migrationFilePath, $this->migrationConfigs['suffix'])) {
+                $migration = $this->migrationNameSpace . '\\' . (basename($migrationFilePath, '.php'));
                 (new $migration($this->connector))->down();
-                $this->deleteRow(basename($migrationFilePath,$this->migrationConfigs['suffix']));
+                $this->deleteRow(basename($migrationFilePath, $this->migrationConfigs['suffix']));
                 $result = true;
             }
         }
@@ -202,6 +203,6 @@ class Migrator extends AbstractMigrator
      */
     private function deleteRow(string $version): void
     {
-        $this->connector->getQueryBuilder()->delete($this->versionTableName)->where('`version`',$version)->exec();
+        $this->connector->getQueryBuilder()->delete($this->versionTableName)->where('`version`', $version)->exec();
     }
 }

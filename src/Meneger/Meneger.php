@@ -31,7 +31,7 @@ class Meneger extends AbstractMeneger
         $DBName    = ($this->connector->getDBName());
         $tableName = "`$DBName`.`$tableName`";
 
-        return $this->connector->getQueryBuilder()->insert($tableName,$columns,$values);
+        return $this->connector->getQueryBuilder()->insert($tableName, $columns, $values);
     }
 
     /**
@@ -45,7 +45,7 @@ class Meneger extends AbstractMeneger
     {
         $objectVars['SRC_KEY'] = (array) $object;
         foreach ($objectVars['SRC_KEY'] as $key => $value) {
-            $aux                 = explode("\0",$key);
+            $aux                 = explode("\0", $key);
             $newkey              = $aux[count($aux) - 1];
             $objectVars[$newkey] = &$objectVars['SRC_KEY'][$key];
         }
@@ -85,9 +85,9 @@ class Meneger extends AbstractMeneger
      */
     private function get_class_name(string $classname): string
     {
-        $pos = strrpos($classname,'\\');
+        $pos = strrpos($classname, '\\');
         if ($pos) {
-            return substr($classname,$pos + 1);
+            return substr($classname, $pos + 1);
         }
 
         return $classname;

@@ -49,7 +49,7 @@ abstract class AbstractMigrator implements IMigrator
         $this->migrationDir       = $migrationDir;
         $this->migrationNameSpace = $migrationNameSpace;
         $DBName                   = $this->connector->getDBName();
-        $this->versionTableName   = "`$DBName`".'.'."`$versionTableName`";
+        $this->versionTableName   = "`$DBName`" . '.' . "`$versionTableName`";
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class AbstractMigrator implements IMigrator
      * @return void
      * @throws FileNotFoundException
      */
-    abstract public function makeMigration(string $sqlQueryUp,string $sqlQueryDown = ''): void;
+    abstract public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void;
 
     /**
      * Method calls up methods in new migrations

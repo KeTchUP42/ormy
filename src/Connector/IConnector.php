@@ -25,7 +25,7 @@ interface IConnector
      *
      * @return array
      */
-    public function query(string $sqlquery,int $fetchStyle = PDO::FETCH_ASSOC): array;
+    public function query(string $sqlquery, int $fetchStyle = PDO::FETCH_ASSOC): array;
 
     /**
      *
