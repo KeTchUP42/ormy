@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace ORMY\App;
 
 use ORMY\Connector\IConnector;
-use ORMY\Meneger\Meneger;
+use ORMY\Manager\IManager;
 use ORMY\Migrator\IMigrator;
 
 /**
@@ -13,11 +13,11 @@ use ORMY\Migrator\IMigrator;
 interface IOrmy
 {
     /**
-     * Получить Meneger
+     * Получить Manager
      *
-     * @return Meneger
+     * @return IManager
      */
-    public function getMeneger(): Meneger;
+    public function getManager(): IManager;
 
     /**
      * Получить Migrator

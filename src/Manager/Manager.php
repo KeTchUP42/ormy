@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace ORMY\Meneger;
+namespace ORMY\Manager;
 
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
 
 /**
  * ORM Meneger
  */
-class Meneger extends AbstractMeneger
+class Manager extends AbstractManager
 {
     /**
      * Method builds IQueryBuilder from container vars

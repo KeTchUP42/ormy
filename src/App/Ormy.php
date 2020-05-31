@@ -6,8 +6,8 @@ namespace ORMY\App;
 use ORMY\Connector\Connector;
 use ORMY\Connector\IConnector;
 use ORMY\Exceptions\ConnectionException;
-use ORMY\Meneger\IMeneger;
-use ORMY\Meneger\Meneger;
+use ORMY\Manager\IManager;
+use ORMY\Manager\Manager;
 use ORMY\Migrator\IMigrator;
 use ORMY\Migrator\Migrator;
 
@@ -17,9 +17,9 @@ use ORMY\Migrator\Migrator;
 class Ormy implements IOrmy
 {
     /**
-     * @var IMeneger
+     * @var IManager
      */
-    private IMeneger   $meneger;
+    private IManager   $manager;
 
     /**
      * @var IMigrator
@@ -50,19 +50,18 @@ class Ormy implements IOrmy
         string $migrationNameSpace = null
     ) {
         $this->connector = new Connector($dsn, $user, $pass);
-        $this->meneger   = new Meneger($this->connector);
-        $this->migrator  = new Migrator($this->connector,$migrationDir,$migrationNameSpace ?? basename($migrationDir)
-        );
+        $this->manager   = new Manager($this->connector);
+        $this->migrator  = new Migrator($this->connector, $migrationDir, $migrationNameSpace ?? basename($migrationDir));
     }
 
     /**
-     * Получить Meneger
+     * Получить Manager
      *
-     * @return Meneger
+     * @return IManager
      */
-    public function getMeneger(): Meneger
+    public function getManager(): IManager
     {
-        return $this->meneger;
+        return $this->manager;
     }
 
     /**
@@ -76,6 +75,8 @@ class Ormy implements IOrmy
     }
 
     /**
+     * Получить Connector
+     *
      * @return IConnector
      */
     public function getConnector(): IConnector

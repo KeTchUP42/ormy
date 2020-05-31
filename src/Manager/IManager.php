@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace ORMY\Meneger;
+namespace ORMY\Manager;
 
 use ORMY\Connector\QueryBuilder\IQueryBuilder;
 
 /**
  * IMeneger
  */
-interface IMeneger
+interface IManager
 {
     /**
      * Method makes code shorter
@@ -18,22 +18,27 @@ interface IMeneger
     public function buildQuery(): IQueryBuilder;
 
     /**
-     * Method creates new entity and put it to the repository
-     *
-     * @param string $className
-     *
-     * @return bool|mixed
-     */
-    public function getRepository(string $className);
-
-    /**
-     * Method sends new info to db from container
-     *
-     * @param object $entity
+     * Method sends new info to db from prepared[]
      *
      * @return void
      */
-    public function flush(object $entity): void;
+    public function flush(): void;
+
+    /**
+     * Method registers new entity
+     *
+     * @param object $entity
+     */
+    public function persist(object $entity): void;
+
+    /**
+     * Method sends new info to db
+     *
+     * @param $entity
+     *
+     * @return void
+     */
+    public function send(object $entity): void;
 
     /**
      * Method builds QueryBuilder from container info
