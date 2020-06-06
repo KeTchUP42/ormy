@@ -36,7 +36,7 @@ class Connector implements IConnector
         try {
             $this->pdo = new PDO($dsn, $host, $pass);
         } catch (\PDOException $exception) {
-            throw new ConnectionException('DataBase connection error, check input args!');
+            throw new ConnectionException('DataBase connection exception, check input args!');
         }
         $this->parseDsn($dsn);
     }
@@ -90,7 +90,6 @@ class Connector implements IConnector
     }
 
     /**
-     *
      * @param string $sqlquery
      *
      * @return bool|\PDOStatement
@@ -105,7 +104,6 @@ class Connector implements IConnector
     }
 
     /**
-     *
      * @param string $sqlquery
      *
      * @return bool
@@ -120,7 +118,6 @@ class Connector implements IConnector
     }
 
     /**
-     *
      * @param string $sqlquery
      *
      * @param int    $fetchStyle
@@ -137,6 +134,7 @@ class Connector implements IConnector
     }
 
     /**
+     * Method returns query builder
      *
      * @return IQueryBuilder
      */

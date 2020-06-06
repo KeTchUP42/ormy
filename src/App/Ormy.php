@@ -14,7 +14,7 @@ use ORMY\Migrator\Migrator;
 /**
  * Main ORM class
  */
-class Ormy implements IOrmy
+final class Ormy
 {
     /**
      * @var IManager
@@ -51,7 +51,8 @@ class Ormy implements IOrmy
     ) {
         $this->connector = new Connector($dsn, $user, $pass);
         $this->manager   = new Manager($this->connector);
-        $this->migrator  = new Migrator($this->connector, $migrationDir, $migrationNameSpace ?? basename($migrationDir));
+        $this->migrator  = new Migrator(
+            $this->connector, $migrationDir, $migrationNameSpace ?? basename($migrationDir));
     }
 
     /**

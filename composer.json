@@ -1,6 +1,6 @@
 {
   "name": "roman/ormy",
-  "description": "Handmade little orm",
+  "description": "Little orm",
   "type": "library",
   "authors": [
     {
@@ -12,6 +12,5 @@
     "php": "^7.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.1"
   }
 }

@@ -12,6 +12,7 @@ use PDO;
 interface IConnector
 {
     /**
+     * Method returns query builder
      *
      * @return IQueryBuilder
      */
