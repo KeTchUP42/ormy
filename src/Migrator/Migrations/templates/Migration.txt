@@ -6,7 +6,7 @@ namespace %namespace%;
 use ORMY\Migrator\Migrations\AbstractMigration;
 
 /**
- * This file was generated with ORMY
+ * This file was generated with ORMY.
  * %version%migration
  */
 class %version%Migration extends AbstractMigration
@@ -15,7 +15,7 @@ class %version%Migration extends AbstractMigration
      * Change method's query if it doesn't correct.
      * Then migrate down and up to rebuild your DB.
      *
-     * Method apply DB changes.
+     * Method applies DB changes.
      */
     public function up(): void
     {
@@ -23,7 +23,7 @@ class %version%Migration extends AbstractMigration
     }
 
     /**
-     * Method roll back DB changes.
+     * Method rolls back all DB changes.
      */
     public function down(): void
     {

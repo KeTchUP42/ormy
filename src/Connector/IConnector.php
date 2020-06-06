@@ -19,7 +19,6 @@ interface IConnector
     public function getQueryBuilder(): IQueryBuilder;
 
     /**
-     *
      * @param string $sqlquery
      *
      * @param int    $fetchStyle
@@ -29,7 +28,6 @@ interface IConnector
     public function query(string $sqlquery, int $fetchStyle = PDO::FETCH_ASSOC): array;
 
     /**
-     *
      * @param string $sqlquery
      *
      * @return bool|false|int
@@ -37,7 +35,6 @@ interface IConnector
     public function exec(string $sqlquery);
 
     /**
-     *
      * @param string $sqlquery
      *
      * @return bool|\PDOStatement

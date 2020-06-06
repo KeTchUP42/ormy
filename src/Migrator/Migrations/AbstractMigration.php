@@ -13,12 +13,12 @@ abstract class AbstractMigration
     use ConnectorTrait;
 
     /**
-     * Method applys all db changes
+     * Method applies all DB changes.
      */
     abstract public function up(): void;
 
     /**
-     * Method roll back all db changes
+     * Method rolls back all DB changes.
      */
     abstract public function down(): void;
 }

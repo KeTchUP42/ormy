@@ -16,7 +16,7 @@ class IDGenerator
     private static int $VersionCorrector = 0;
 
     /**
-     * Method returns unique string from timespan
+     * Method returns unique string from current timespan
      *
      * @param string $prefix
      *
@@ -24,6 +24,6 @@ class IDGenerator
      */
     public static function generateVersion(string $prefix): string
     {
-        return $prefix . ((new \DateTime())->getTimestamp() + self::$VersionCorrector++);
+        return $prefix.((new \DateTime())->getTimestamp() + self::$VersionCorrector++);
     }
 }

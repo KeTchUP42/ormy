@@ -11,7 +11,7 @@ use ORMY\Connector\QueryBuilder\IQueryBuilder;
 class Manager extends AbstractManager
 {
     /**
-     * Method builds IQueryBuilder from container vars
+     * Method builds QueryBuilder for entity
      *
      * @param object $entity
      *
@@ -35,7 +35,7 @@ class Manager extends AbstractManager
     }
 
     /**
-     * Method returns repository's vars names and values
+     * Method returns repository's vars array
      *
      * @param object $object
      *

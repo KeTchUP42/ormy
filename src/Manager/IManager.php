@@ -41,7 +41,7 @@ interface IManager
     public function send(object $entity): void;
 
     /**
-     * Method builds QueryBuilder from container info
+     * Method builds QueryBuilder for entity
      *
      * @param object $entity
      *

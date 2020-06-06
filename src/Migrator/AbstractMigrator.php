@@ -53,8 +53,7 @@ abstract class AbstractMigrator implements IMigrator
     }
 
     /**
-     * Method makes migration ->
-     * adds new migration class
+     * Method creates new migration and puts it to the migration's dir.
      *
      * @param string $sqlQueryUp
      * @param string $sqlQueryDown
@@ -65,16 +64,14 @@ abstract class AbstractMigrator implements IMigrator
     abstract public function makeMigration(string $sqlQueryUp, string $sqlQueryDown = ''): void;
 
     /**
-     * Method calls up methods in new migrations
-     * and writes to db new executed version
+     * Method calls `up` method in new migrations and updates version table.
      *
      * @return bool
      */
     abstract public function migrateUp(): bool;
 
     /**
-     * Method calls all down methods in migrations
-     * and deletes all executed versions from db
+     * Method calls `down` method in migrations and deletes all executed versions from db
      *
      * @return bool
      */

@@ -33,7 +33,6 @@ interface IQueryBuilder
     public function query(int $fetchStyle = PDO::FETCH_ASSOC): array;
 
     /**
-     *
      * @param string $table
      *
      * @return IQueryBuilder
@@ -41,7 +40,6 @@ interface IQueryBuilder
     public function delete(string $table): IQueryBuilder;
 
     /**
-     *
      * @param string $table
      * @param array  $fields
      *
@@ -50,7 +48,6 @@ interface IQueryBuilder
     public function select(string $table, array $fields): IQueryBuilder;
 
     /**
-     *
      * @param string $table
      *
      * @param array  $fields
@@ -61,7 +58,6 @@ interface IQueryBuilder
     public function insert(string $table, array $fields, array $values): IQueryBuilder;
 
     /**
-     *
      * @param string $field
      * @param string $value
      * @param string $operator
@@ -71,7 +67,6 @@ interface IQueryBuilder
     public function where(string $field, string $value, string $operator = '='): IQueryBuilder;
 
     /**
-     *
      * @param int $limit
      *
      * @return IQueryBuilder
@@ -79,7 +74,6 @@ interface IQueryBuilder
     public function limit(int $limit): IQueryBuilder;
 
     /**
-     *
      * @param string $column
      * @param string $orderType
      *

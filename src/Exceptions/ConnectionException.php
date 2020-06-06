@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace ORMY\Exceptions;
 
 /**
- * Connector exception
+ * Connector DB connection exception
  */
 class ConnectionException extends \Exception
 {

@@ -14,6 +14,8 @@ abstract class AbstractManager implements IManager
     use ConnectorTrait;
 
     /**
+     * Array of prepared entities
+     *
      * @var array
      */
     protected array $prepared = [];
@@ -42,7 +44,7 @@ abstract class AbstractManager implements IManager
     }
 
     /**
-     * Method builds IQueryBuilder from container vars
+     * Method builds QueryBuilder for entity
      *
      * @param $entity
      *
