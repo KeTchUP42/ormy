@@ -3,18 +3,18 @@ declare(strict_types = 1);
 
 namespace ORMY\Migrator;
 
-use ORMY\Connector\IConnector;
+use ORMY\Connector\ConnectorInterface;
 use ORMY\Exceptions\FileNotFoundException;
 
 /**
  * AbstractMigrator
  */
-abstract class AbstractMigrator implements IMigrator
+abstract class AbstractMigrator implements MigratorInterface
 {
     /**
-     * @var IConnector
+     * @var ConnectorInterface
      */
-    protected IConnector $connector;
+    protected ConnectorInterface $connector;
 
     /**
      * @var string
@@ -34,13 +34,13 @@ abstract class AbstractMigrator implements IMigrator
     /**
      * Конструктор.
      *
-     * @param IConnector $connector
-     * @param string     $migrationDir
-     * @param string     $migrationNameSpace
-     * @param string     $versionTableName
+     * @param ConnectorInterface $connector
+     * @param string             $migrationDir
+     * @param string             $migrationNameSpace
+     * @param string             $versionTableName
      */
     public function __construct(
-        IConnector $connector,
+        ConnectorInterface $connector,
         string $migrationDir,
         string $migrationNameSpace,
         string $versionTableName

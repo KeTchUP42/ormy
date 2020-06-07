@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ORMY\Manager;
 
-use ORMY\Connector\QueryBuilder\IQueryBuilder;
+use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 
 /**
  * ORM Meneger
@@ -15,9 +15,9 @@ class Manager extends AbstractManager
      *
      * @param object $entity
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function build(object $entity): IQueryBuilder
+    public function build(object $entity): QueryBuilderInterface
     {
         $columns = [];
         $values  = [];

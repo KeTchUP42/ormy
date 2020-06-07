@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace ORMY\App;
 
 use ORMY\Connector\Connector;
-use ORMY\Connector\IConnector;
+use ORMY\Connector\ConnectorInterface;
 use ORMY\Exceptions\ConnectionException;
-use ORMY\Manager\IManager;
+use ORMY\Manager\ManagerInterface;
 use ORMY\Manager\Manager;
-use ORMY\Migrator\IMigrator;
+use ORMY\Migrator\MigratorInterface;
 use ORMY\Migrator\Migrator;
 
 /**
@@ -17,19 +17,19 @@ use ORMY\Migrator\Migrator;
 final class Ormy
 {
     /**
-     * @var IManager
+     * @var ManagerInterface
      */
-    private IManager   $manager;
+    private ManagerInterface   $manager;
 
     /**
-     * @var IMigrator
+     * @var MigratorInterface
      */
-    private IMigrator  $migrator;
+    private MigratorInterface  $migrator;
 
     /**
-     * @var IConnector
+     * @var ConnectorInterface
      */
-    private IConnector $connector;
+    private ConnectorInterface $connector;
 
     /**
      * Конструктор.
@@ -58,9 +58,9 @@ final class Ormy
     /**
      * Получить Manager
      *
-     * @return IManager
+     * @return ManagerInterface
      */
-    public function getManager(): IManager
+    public function getManager(): ManagerInterface
     {
         return $this->manager;
     }
@@ -68,9 +68,9 @@ final class Ormy
     /**
      * Получить Migrator
      *
-     * @return IMigrator
+     * @return MigratorInterface
      */
-    public function getMigrator(): IMigrator
+    public function getMigrator(): MigratorInterface
     {
         return $this->migrator;
     }
@@ -78,9 +78,9 @@ final class Ormy
     /**
      * Получить Connector
      *
-     * @return IConnector
+     * @return ConnectorInterface
      */
-    public function getConnector(): IConnector
+    public function getConnector(): ConnectorInterface
     {
         return $this->connector;
     }

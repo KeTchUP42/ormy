@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ORMY\Traits;
 
-use ORMY\Connector\IConnector;
+use ORMY\Connector\ConnectorInterface;
 
 /**
  * ConnectorTrait
@@ -11,16 +11,16 @@ use ORMY\Connector\IConnector;
 trait ConnectorTrait
 {
     /**
-     * @var IConnector
+     * @var ConnectorInterface
      */
-    protected IConnector $connector;
+    protected ConnectorInterface $connector;
 
     /**
      * Конструктор.
      *
-     * @param IConnector $connector
+     * @param ConnectorInterface $connector
      */
-    public function __construct(IConnector $connector)
+    public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }

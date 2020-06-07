@@ -3,19 +3,19 @@ declare(strict_types = 1);
 
 namespace ORMY\Manager;
 
-use ORMY\Connector\QueryBuilder\IQueryBuilder;
+use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 
 /**
  * IMeneger
  */
-interface IManager
+interface ManagerInterface
 {
     /**
      * Method makes code shorter
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function buildQuery(): IQueryBuilder;
+    public function buildQuery(): QueryBuilderInterface;
 
     /**
      * Method sends new info to db from prepared[]
@@ -45,7 +45,7 @@ interface IManager
      *
      * @param object $entity
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function build(object $entity): IQueryBuilder;
+    public function build(object $entity): QueryBuilderInterface;
 }

@@ -3,13 +3,13 @@ declare(strict_types = 1);
 
 namespace ORMY\Manager;
 
-use ORMY\Connector\QueryBuilder\IQueryBuilder;
+use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 use ORMY\Traits\ConnectorTrait;
 
 /**
  * AbstractMeneger
  */
-abstract class AbstractManager implements IManager
+abstract class AbstractManager implements ManagerInterface
 {
     use ConnectorTrait;
 
@@ -23,9 +23,9 @@ abstract class AbstractManager implements IManager
     /**
      * Method makes code shorter
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function buildQuery(): IQueryBuilder
+    public function buildQuery(): QueryBuilderInterface
     {
         return $this->connector->getQueryBuilder();
     }
@@ -48,9 +48,9 @@ abstract class AbstractManager implements IManager
      *
      * @param $entity
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    abstract public function build(object $entity): IQueryBuilder;
+    abstract public function build(object $entity): QueryBuilderInterface;
 
     /**
      * Method registers new entity

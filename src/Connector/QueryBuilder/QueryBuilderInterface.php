@@ -8,7 +8,7 @@ use PDO;
 /**
  * IQueryBuilder
  */
-interface IQueryBuilder
+interface QueryBuilderInterface
 {
     /**
      *
@@ -35,17 +35,17 @@ interface IQueryBuilder
     /**
      * @param string $table
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function delete(string $table): IQueryBuilder;
+    public function delete(string $table): QueryBuilderInterface;
 
     /**
      * @param string $table
      * @param array  $fields
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function select(string $table, array $fields): IQueryBuilder;
+    public function select(string $table, array $fields): QueryBuilderInterface;
 
     /**
      * @param string $table
@@ -53,31 +53,31 @@ interface IQueryBuilder
      * @param array  $fields
      * @param array  $values
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function insert(string $table, array $fields, array $values): IQueryBuilder;
+    public function insert(string $table, array $fields, array $values): QueryBuilderInterface;
 
     /**
      * @param string $field
      * @param string $value
      * @param string $operator
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function where(string $field, string $value, string $operator = '='): IQueryBuilder;
+    public function where(string $field, string $value, string $operator = '='): QueryBuilderInterface;
 
     /**
      * @param int $limit
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function limit(int $limit): IQueryBuilder;
+    public function limit(int $limit): QueryBuilderInterface;
 
     /**
      * @param string $column
      * @param string $orderType
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function order(string $column, string $orderType = 'ASC'): IQueryBuilder;
+    public function order(string $column, string $orderType = 'ASC'): QueryBuilderInterface;
 }

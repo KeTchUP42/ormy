@@ -6,15 +6,15 @@ namespace ORMY\Connector\QueryBuilder;
 /**
  * QueryBuilder
  */
-class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
+class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInterface
 {
     /**
      * @param string $table
      * @param array  $fields
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function select(string $table, array $fields): IQueryBuilder
+    public function select(string $table, array $fields): QueryBuilderInterface
     {
         $this->reset();
         $this->query->base = "SELECT ".implode(", ", $fields)." FROM ".$table;
@@ -29,9 +29,9 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      * @param array  $fields
      * @param array  $values
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function insert(string $table, array $fields, array $values): IQueryBuilder
+    public function insert(string $table, array $fields, array $values): QueryBuilderInterface
     {
         $this->reset();
         $this->query->base = "INSERT INTO ".$table.'('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
@@ -43,9 +43,9 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     /**
      * @param string $table
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function delete(string $table): IQueryBuilder
+    public function delete(string $table): QueryBuilderInterface
     {
         $this->reset();
         $this->query->base = "DELETE FROM ".$table;
@@ -59,9 +59,9 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      * @param string $value
      * @param string $operator
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function where(string $field, string $value, string $operator = '='): IQueryBuilder
+    public function where(string $field, string $value, string $operator = '='): QueryBuilderInterface
     {
         if (in_array($this->query->type, ['select', 'update', 'delete'])) {
             $this->query->where[] = "$field $operator '$value'";
@@ -73,9 +73,9 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
     /**
      * @param int $limit
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function limit(int $limit): IQueryBuilder
+    public function limit(int $limit): QueryBuilderInterface
     {
         if (in_array($this->query->type, ['select', 'delete'])) {
             $this->query->limit = " LIMIT ".$limit;
@@ -88,9 +88,9 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements IQueryBuilder
      * @param string $column
      * @param string $orderType
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function order(string $column, string $orderType = 'ASC'): IQueryBuilder
+    public function order(string $column, string $orderType = 'ASC'): QueryBuilderInterface
     {
         if (!isset($this->query->limit) && in_array($this->query->type, ['select', 'delete'])) {
             $this->query->order = " ORDER BY ".$column." $orderType";

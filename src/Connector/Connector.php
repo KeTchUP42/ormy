@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace ORMY\Connector;
 
 use Exception;
-use ORMY\Connector\QueryBuilder\IQueryBuilder;
+use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 use ORMY\Connector\QueryBuilder\MySQLQueryBuilder;
 use ORMY\Exceptions\ConnectionException;
 use PDO;
@@ -12,7 +12,7 @@ use PDO;
 /**
  * ORM Connector
  */
-class Connector implements IConnector
+class Connector implements ConnectorInterface
 {
     /**
      * @var PDO
@@ -136,9 +136,9 @@ class Connector implements IConnector
     /**
      * Method returns query builder
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function getQueryBuilder(): IQueryBuilder
+    public function getQueryBuilder(): QueryBuilderInterface
     {
         return new MySQLQueryBuilder($this);
     }

@@ -3,20 +3,20 @@ declare(strict_types = 1);
 
 namespace ORMY\Connector;
 
-use ORMY\Connector\QueryBuilder\IQueryBuilder;
+use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 use PDO;
 
 /**
  * IConnector
  */
-interface IConnector
+interface ConnectorInterface
 {
     /**
      * Method returns query builder
      *
-     * @return IQueryBuilder
+     * @return QueryBuilderInterface
      */
-    public function getQueryBuilder(): IQueryBuilder;
+    public function getQueryBuilder(): QueryBuilderInterface;
 
     /**
      * @param string $sqlquery

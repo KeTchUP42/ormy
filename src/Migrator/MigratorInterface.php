@@ -8,7 +8,7 @@ use ORMY\Exceptions\FileNotFoundException;
 /**
  *
  */
-interface IMigrator
+interface MigratorInterface
 {
     /**
      * Method creates new migration and puts it to the migration's dir.
