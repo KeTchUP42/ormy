@@ -19,7 +19,7 @@ abstract class AbstractMigrator implements MigratorInterface
     /**
      * @var string
      */
-    protected string $migrationDir;
+    protected string $migrationDirectory;
 
     /**
      * @var string
@@ -35,21 +35,21 @@ abstract class AbstractMigrator implements MigratorInterface
      * Конструктор.
      *
      * @param ConnectorInterface $connector
-     * @param string             $migrationDir
+     * @param string             $migrationDirectory
      * @param string             $migrationNameSpace
      * @param string             $versionTableName
      */
     public function __construct(
         ConnectorInterface $connector,
-        string $migrationDir,
+        string $migrationDirectory,
         string $migrationNameSpace,
         string $versionTableName
     ) {
         $this->connector          = $connector;
-        $this->migrationDir       = $migrationDir;
+        $this->migrationDirectory       = $migrationDirectory;
         $this->migrationNameSpace = $migrationNameSpace;
         $DBName                   = $this->connector->getDBName();
-        $this->versionTableName   = "`$DBName`" . '.' . "`$versionTableName`";
+        $this->versionTableName   = "`$DBName`".'.'."`$versionTableName`";
     }
 
     /**
@@ -66,14 +66,14 @@ abstract class AbstractMigrator implements MigratorInterface
     /**
      * Method calls `up` method in new migrations and updates version table.
      *
-     * @return bool
+     * @return void
      */
-    abstract public function migrateUp(): bool;
+    abstract public function migrateUp(): void;
 
     /**
      * Method calls `down` method in migrations and deletes all executed versions from db
      *
-     * @return bool
+     * @return void
      */
-    abstract public function migrateDown(): bool;
+    abstract public function migrateDown(): void;
 }

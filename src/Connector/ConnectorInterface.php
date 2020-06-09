@@ -7,7 +7,7 @@ use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 use PDO;
 
 /**
- * IConnector
+ * ConnectorInterface
  */
 interface ConnectorInterface
 {

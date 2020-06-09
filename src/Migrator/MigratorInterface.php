@@ -6,7 +6,7 @@ namespace ORMY\Migrator;
 use ORMY\Exceptions\FileNotFoundException;
 
 /**
- *
+ * MigratorInterface
  */
 interface MigratorInterface
 {
@@ -24,14 +24,14 @@ interface MigratorInterface
     /**
      * Method calls `up` method in new migrations and updates version table.
      *
-     * @return bool
+     * @return void
      */
-    public function migrateUp(): bool;
+    public function migrateUp(): void;
 
     /**
      * Method calls `down` method in migrations and deletes all executed versions from db
      *
-     * @return bool
+     * @return void
      */
-    public function migrateDown(): bool;
+    public function migrateDown(): void;
 }

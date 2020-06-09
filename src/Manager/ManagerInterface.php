@@ -6,7 +6,7 @@ namespace ORMY\Manager;
 use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 
 /**
- * IMeneger
+ * ManagerInterface
  */
 interface ManagerInterface
 {
@@ -20,9 +20,18 @@ interface ManagerInterface
     /**
      * Method sends new info to db from prepared[]
      *
+     * @param bool $migrate
+     *
      * @return void
      */
-    public function flush(): void;
+    public function flush(bool $migrate = false): void;
+
+    /**
+     * Method makes migration from param entity
+     *
+     * @param object $entity
+     */
+    public function migrate(object $entity): void;
 
     /**
      * Method registers new entity

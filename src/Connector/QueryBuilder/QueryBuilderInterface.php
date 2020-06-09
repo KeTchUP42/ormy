@@ -6,7 +6,7 @@ namespace ORMY\Connector\QueryBuilder;
 use PDO;
 
 /**
- * IQueryBuilder
+ * QueryBuilderInterface
  */
 interface QueryBuilderInterface
 {

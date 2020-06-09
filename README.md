@@ -43,4 +43,4 @@
     $ormy->getConnector();
     
     Class is PDO wrap and has base functional to work with DB.
-    If you want to see class functional check Connector interface.
+    If you want to see class functional check ConnectorInterface.

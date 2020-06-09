@@ -34,7 +34,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInt
     public function insert(string $table, array $fields, array $values): QueryBuilderInterface
     {
         $this->reset();
-        $this->query->base = "INSERT INTO ".$table.'('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
+        $this->query->base = "INSERT INTO ".$table.' ('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
         $this->query->type = 'insert';
 
         return $this;

@@ -6,10 +6,10 @@ namespace ORMY\App;
 use ORMY\Connector\Connector;
 use ORMY\Connector\ConnectorInterface;
 use ORMY\Exceptions\ConnectionException;
-use ORMY\Manager\ManagerInterface;
 use ORMY\Manager\Manager;
-use ORMY\Migrator\MigratorInterface;
+use ORMY\Manager\ManagerInterface;
 use ORMY\Migrator\Migrator;
+use ORMY\Migrator\MigratorInterface;
 
 /**
  * Main ORM class
@@ -37,7 +37,7 @@ final class Ormy
      * @param string $dsn
      * @param string $user
      * @param string $pass
-     * @param string $migrationDir
+     * @param string $migrationDirectory
      * @param string $migrationNameSpace
      *
      * @throws ConnectionException
@@ -46,13 +46,12 @@ final class Ormy
         string $dsn,
         string $user,
         string $pass,
-        string $migrationDir,
+        string $migrationDirectory,
         string $migrationNameSpace = null
     ) {
         $this->connector = new Connector($dsn, $user, $pass);
-        $this->manager   = new Manager($this->connector);
-        $this->migrator  = new Migrator(
-            $this->connector, $migrationDir, $migrationNameSpace ?? basename($migrationDir));
+        $this->migrator  = new Migrator($this->connector, $migrationDirectory, $migrationNameSpace ?? basename($migrationDirectory));
+        $this->manager   = new Manager($this->migrator, $this->connector);
     }
 
     /**

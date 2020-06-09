@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace ORMY\Connector;
 
 use Exception;
-use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 use ORMY\Connector\QueryBuilder\MySQLQueryBuilder;
+use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 use ORMY\Exceptions\ConnectionException;
 use PDO;
 
