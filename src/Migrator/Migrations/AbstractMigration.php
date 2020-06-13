@@ -18,7 +18,7 @@ abstract class AbstractMigration
     abstract public function up(): void;
 
     /**
-     * Method rolls back all DB changes.
+     * Method rolls back DB changes.
      */
     abstract public function down(): void;
 }

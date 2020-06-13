@@ -23,7 +23,7 @@ class %version%Migration extends AbstractMigration
     }
 
     /**
-     * Method rolls back all DB changes.
+     * Method rolls back DB changes.
      */
     public function down(): void
     {
