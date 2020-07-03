@@ -115,7 +115,7 @@ class Migrator extends AbstractMigrator
             str_replace(
                 ':tablename',
                 $this->versionTableName,
-                file_get_contents(__DIR__.'/sql/version_table_create.sql')
+                file_get_contents(__DIR__.'/sql/VersionTableCreate.sql')
             )
         );
     }

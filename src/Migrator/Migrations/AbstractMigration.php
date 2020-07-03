@@ -6,7 +6,7 @@ namespace ORMY\Migrator\Migrations;
 use ORMY\Traits\ConnectorTrait;
 
 /**
- *  AbstractMigration
+ * AbstractMigration
  */
 abstract class AbstractMigration
 {
