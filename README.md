@@ -4,12 +4,12 @@
 ## How to use:
 
 ### Migrator:
-    $ormy = new Ormy('mysql:dbname=dev;host=localhost', 'root', 'roma', __DIR__.'/Migrations',null);
+    $ormy = new Ormy('mysql:dbname=dev;host=localhost', 'root', 'roma', __DIR__.'/Migrations', null);
     
     $sqlQueryUp = "CREATE TABLE `dev`.`main`...;"
     $sqlQueryDown =  "DROP TABLE `dev`.`main`;"   
     
-    $ormy->getMigrator()->makeMigration($sqlQueryUp,$sqlQueryDown);
+    $ormy->getMigrator()->makeMigration($sqlQueryUp, $sqlQueryDown);
     $ormy->getMigrator()->migrateUp();   
 #### So, you have made new migration and put it to `__DIR__.'/Migrations'` with auto generated namespace 'Migrations'.
 #### Then you called 'up' method in it.
