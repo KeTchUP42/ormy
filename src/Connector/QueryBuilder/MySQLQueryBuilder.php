@@ -9,10 +9,7 @@ namespace ORMY\Connector\QueryBuilder;
 class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInterface
 {
     /**
-     * @param string $table
-     * @param array  $fields
-     *
-     * @return QueryBuilderInterface
+     * @inheritDoc
      */
     public function select(string $table, array $fields): QueryBuilderInterface
     {
@@ -24,12 +21,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInt
     }
 
     /**
-     * @param string $table
-     *
-     * @param array  $fields
-     * @param array  $values
-     *
-     * @return QueryBuilderInterface
+     * @inheritDoc
      */
     public function insert(string $table, array $fields, array $values): QueryBuilderInterface
     {
@@ -41,9 +33,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInt
     }
 
     /**
-     * @param string $table
-     *
-     * @return QueryBuilderInterface
+     * @inheritDoc
      */
     public function delete(string $table): QueryBuilderInterface
     {
@@ -55,11 +45,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInt
     }
 
     /**
-     * @param string $field
-     * @param string $value
-     * @param string $operator
-     *
-     * @return QueryBuilderInterface
+     * @inheritDoc
      */
     public function where(string $field, string $value, string $operator = '='): QueryBuilderInterface
     {
@@ -71,9 +57,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInt
     }
 
     /**
-     * @param int $limit
-     *
-     * @return QueryBuilderInterface
+     * @inheritDoc
      */
     public function limit(int $limit): QueryBuilderInterface
     {
@@ -85,10 +69,7 @@ class MySQLQueryBuilder extends AbstaractQueryBuilder implements QueryBuilderInt
     }
 
     /**
-     * @param string $column
-     * @param string $orderType
-     *
-     * @return QueryBuilderInterface
+     * @inheritDoc
      */
     public function order(string $column, string $orderType = 'ASC'): QueryBuilderInterface
     {

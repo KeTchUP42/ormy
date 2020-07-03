@@ -11,6 +11,7 @@ use PDO;
 interface QueryBuilderInterface
 {
     /**
+     * Method builds sql query
      *
      * @return string
      */
@@ -33,6 +34,8 @@ interface QueryBuilderInterface
     public function query(int $fetchStyle = PDO::FETCH_ASSOC): array;
 
     /**
+     * Delete operation
+     *
      * @param string $table
      *
      * @return QueryBuilderInterface
@@ -40,6 +43,8 @@ interface QueryBuilderInterface
     public function delete(string $table): QueryBuilderInterface;
 
     /**
+     * Select operation
+     *
      * @param string $table
      * @param array  $fields
      *
@@ -48,6 +53,8 @@ interface QueryBuilderInterface
     public function select(string $table, array $fields): QueryBuilderInterface;
 
     /**
+     * Insert operation
+     *
      * @param string $table
      *
      * @param array  $fields
@@ -58,6 +65,8 @@ interface QueryBuilderInterface
     public function insert(string $table, array $fields, array $values): QueryBuilderInterface;
 
     /**
+     * Where operation
+     *
      * @param string $field
      * @param string $value
      * @param string $operator
@@ -67,6 +76,8 @@ interface QueryBuilderInterface
     public function where(string $field, string $value, string $operator = '='): QueryBuilderInterface;
 
     /**
+     * Limit operation
+     *
      * @param int $limit
      *
      * @return QueryBuilderInterface
@@ -74,6 +85,8 @@ interface QueryBuilderInterface
     public function limit(int $limit): QueryBuilderInterface;
 
     /**
+     * Order operation
+     *
      * @param string $column
      * @param string $orderType
      *
