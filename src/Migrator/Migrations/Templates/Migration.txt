@@ -7,9 +7,9 @@ use ORMY\Migrator\Migrations\AbstractMigration;
 
 /**
  * This file was generated with ORMY.
- * %version%migration
+ * %version%%suffix%
  */
-class %version%Migration extends AbstractMigration
+final class %version%%suffix% extends AbstractMigration
 {
     /**
      * Change method's query if it doesn't correct.

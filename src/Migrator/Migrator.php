@@ -73,17 +73,19 @@ class Migrator extends AbstractMigrator
         if (!file_exists($tempPath)) {
             throw new FileNotFoundException('Migration template file not found!');
         }
-        $version = IDGenerator::generateVersion($this->migrationIni['prefix']);
+        $version     = IDGenerator::generateVersion($this->migrationIni['prefix']);
+        $classSuffix = basename($this->migrationIni['suffix'], '.php');
         file_put_contents(
             $this->migrationDirectory.'/'.$version.$this->migrationIni['suffix'],
             str_replace(
                 [
                     $this->templIni['version'],
+                    $this->templIni['suffix'],
                     $this->templIni['queryUp'],
                     $this->templIni['queryDown'],
                     $this->templIni['namespace']
                 ],
-                [$version, $sqlQueryUp, $sqlQueryDown, $this->migrationNameSpace],
+                [$version, $classSuffix, $sqlQueryUp, $sqlQueryDown, $this->migrationNameSpace],
                 file_get_contents($tempPath)
             )
         );
@@ -121,16 +123,6 @@ class Migrator extends AbstractMigrator
     }
 
     /**
-     * Method selects all migration versions from db
-     *
-     * @return array
-     */
-    private function selectAllVersions(): array
-    {
-        return $this->connector->getQueryBuilder()->select($this->versionTableName, ['`version`'])->query();
-    }
-
-    /**
      * Method makes shorter main part of code
      *
      * @return array
@@ -156,6 +148,16 @@ class Migrator extends AbstractMigrator
         }
 
         return true;
+    }
+
+    /**
+     * Method selects all migration versions from db
+     *
+     * @return array
+     */
+    private function selectAllVersions(): array
+    {
+        return $this->connector->getQueryBuilder()->select($this->versionTableName, ['`version`'])->query();
     }
 
     /**

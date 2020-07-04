@@ -46,7 +46,7 @@ abstract class AbstractMigrator implements MigratorInterface
         string $versionTableName
     ) {
         $this->connector          = $connector;
-        $this->migrationDirectory       = $migrationDirectory;
+        $this->migrationDirectory = $migrationDirectory;
         $this->migrationNameSpace = $migrationNameSpace;
         $DBName                   = $this->connector->getDBName();
         $this->versionTableName   = "`$DBName`".'.'."`$versionTableName`";
