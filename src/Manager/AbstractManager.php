@@ -9,7 +9,7 @@ use ORMY\Exceptions\FileNotFoundException;
 use ORMY\Migrator\MigratorInterface;
 
 /**
- * AbstractMeneger
+ * AbstractManager
  */
 abstract class AbstractManager implements ManagerInterface
 {

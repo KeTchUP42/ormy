@@ -6,7 +6,7 @@ namespace ORMY\Manager;
 use ORMY\Connector\QueryBuilder\QueryBuilderInterface;
 
 /**
- * ORM Meneger
+ * ORM Manager
  */
 class Manager extends AbstractManager
 {
