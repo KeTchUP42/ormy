@@ -1,6 +1,6 @@
 {
   "name": "roman/ormy",
-  "description": "Little orm",
+  "description": "Simple php ORM",
   "type": "library",
   "authors": [
     {
