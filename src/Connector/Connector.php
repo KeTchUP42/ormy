@@ -138,7 +138,7 @@ class Connector implements ConnectorInterface
      *
      * @return QueryBuilderInterface
      */
-    public function getQueryBuilder(): QueryBuilderInterface
+    public function createQueryBuilder(): QueryBuilderInterface
     {
         return new MySQLQueryBuilder($this);
     }

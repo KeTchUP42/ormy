@@ -16,7 +16,7 @@ interface ConnectorInterface
      *
      * @return QueryBuilderInterface
      */
-    public function getQueryBuilder(): QueryBuilderInterface;
+    public function createQueryBuilder(): QueryBuilderInterface;
 
     /**
      * @param string $sqlquery

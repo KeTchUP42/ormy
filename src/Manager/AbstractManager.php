@@ -49,7 +49,7 @@ abstract class AbstractManager implements ManagerInterface
      */
     public function buildQuery(): QueryBuilderInterface
     {
-        return $this->connector->getQueryBuilder();
+        return $this->connector->createQueryBuilder();
     }
 
     /**

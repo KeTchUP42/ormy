@@ -157,7 +157,7 @@ class Migrator extends AbstractMigrator
      */
     private function selectAllVersions(): array
     {
-        return $this->connector->getQueryBuilder()->select($this->versionTableName, ['`version`'])->query();
+        return $this->connector->createQueryBuilder()->select($this->versionTableName, ['`version`'])->query();
     }
 
     /**
@@ -167,7 +167,7 @@ class Migrator extends AbstractMigrator
      */
     private function insertExecutedVersion(string $version): void
     {
-        $this->connector->getQueryBuilder()->insert($this->versionTableName, ['`version`'], ["'$version'"])->exec();
+        $this->connector->createQueryBuilder()->insert($this->versionTableName, ['`version`'], ["'$version'"])->exec();
     }
 
     /**
@@ -193,6 +193,6 @@ class Migrator extends AbstractMigrator
      */
     private function deleteRow(string $version): void
     {
-        $this->connector->getQueryBuilder()->delete($this->versionTableName)->where('`version`', $version)->exec();
+        $this->connector->createQueryBuilder()->delete($this->versionTableName)->where('`version`', $version)->exec();
     }
 }

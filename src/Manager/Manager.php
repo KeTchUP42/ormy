@@ -31,7 +31,7 @@ class Manager extends AbstractManager
         $DBName    = ($this->connector->getDBName());
         $tableName = "`$DBName`.`$tableName`";
 
-        return $this->connector->getQueryBuilder()->insert($tableName, $columns, $values);
+        return $this->connector->createQueryBuilder()->insert($tableName, $columns, $values);
     }
 
     /**

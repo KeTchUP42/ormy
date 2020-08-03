@@ -34,11 +34,11 @@ final class Ormy
     /**
      * Конструктор.
      *
-     * @param string $dsn
-     * @param string $user
-     * @param string $pass
-     * @param string $migrationDirectory
-     * @param string $migrationNameSpace
+     * @param string      $dsn
+     * @param string      $user
+     * @param string      $pass
+     * @param string      $migrationDirectory
+     * @param string|null $migrationNameSpace
      *
      * @throws ConnectionException
      */
